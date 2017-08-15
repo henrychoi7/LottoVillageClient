@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\university\3_2\LottoVillageClient\LottoVillage.iml" filepath="D:\university\3_2\LottoVillageClient\LottoVillage.iml" />
       <module fileurl="file://$PROJECT_DIR$/LottoVillageClient.iml" filepath="$PROJECT_DIR$/LottoVillageClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\university\3_2\LottoVillageClient\app\app.iml" filepath="D:\university\3_2\LottoVillageClient\app\app.iml" />
     </modules>
   </component>
 </project>

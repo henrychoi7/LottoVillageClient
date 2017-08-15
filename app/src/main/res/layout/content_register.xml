@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/greyBackground"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.RegisterActivity"
+    tools:showIn="@layout/activity_register">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/attr_layout_bottom_dotted"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <com.jjosft.android.lottovillage.base.ClearEditText
+                android:id="@+id/edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:hint="@string/nick_name"
+                android:inputType="text"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/blackText" />
+
+            <com.jjosft.android.lottovillage.base.PasswordEditText
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/blackText" />
+
+            <com.jjosft.android.lottovillage.base.PasswordEditText
+                android:id="@+id/edit_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/blackText" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/ic_phone_24dp"
+                    android:hint="@string/phone_number"
+                    android:inputType="phone"
+                    android:textColor="@color/blackText"
+                    android:textColorHint="@color/blackText"
+                    tools:ignore="TextFields" />
+
+                <Button
+                    android:id="@+id/button_certified"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/attr_button_init"
+                    android:inputType="number"
+                    android:onClick="customOnClick"
+                    android:text="@string/send_message"
+                    tools:ignore="TextViewEdits" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_confirm_certified"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/ic_verified_user_24dp"
+                    android:hint="@string/confirm_certified"
+                    android:textColor="@color/blackText"
+                    android:textColorHint="@color/blackText" />
+
+                <Button
+                    android:id="@+id/button_confirm_certified"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/attr_button_init"
+                    android:inputType="number"
+                    android:onClick="customOnClick"
+                    android:text="@string/certified"
+                    tools:ignore="TextViewEdits" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/attr_layout_normal"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <CheckedTextView
+                android:id="@+id/checked_text_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                android:onClick="customOnClick"
+                android:text="@string/service_terms_conditions" />
+
+            <CheckedTextView
+                android:id="@+id/checked_text_personal_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                android:onClick="customOnClick"
+                android:text="@string/personal_information_terms_conditions" />
+
+            <Button
+                android:id="@+id/button_registered"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"
+                android:background="@drawable/attr_button_complete"
+                android:enabled="false"
+                android:onClick="customOnClick"
+                android:text="@string/registered"
+                android:textColor="@color/white"
+                android:textSize="23sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

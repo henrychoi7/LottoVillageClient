@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">LottoVillage</string>
+    <string name="login">로그인</string>
+    <string name="register">회원가입</string>
+
+    <!-- Common Strings -->
+    <string name="loading">Loading…</string>
+    <string name="okay">확인</string>
+    <string name="cancel">취소</string>
+    <string name="explain_permission_sms">문자전송을 위해서 권한을 허락해주셔야합니다.</string>
+
+    <!-- SMS Content -->
+    <string name="message_front">(LottoVillage) 인증번호 [</string>
+    <string name="message_back">] 를 입력해주세요.</string>
+
+    <!-- Register Strings -->
+    <string name="try_to_register">가입하기</string>
+    <string name="registered">가입완료</string>
+    <string name="nick_name">이름 혹은 별명</string>
+    <string name="password">비밀번호</string>
+    <string name="confirm_password">비밀번호 확인</string>
+    <string name="phone_number">-를 포함한 전화번호</string>
+    <string name="unmatched_phone_number">전화번호를 확인해주세요.</string>
+    <string name="send_message">전송</string>
+    <string name="certified">인증</string>
+    <string name="confirm_certified">인증번호 확인</string>
+    <string name="service_terms_conditions">서비스 이용약관 동의</string>
+    <string name="personal_information_terms_conditions">개인정보 수집-이용 동의</string>
+    <string name="send_certified_number">인증번호 발신</string>
+    <string name="request_permission_certified_number">인증번호를 보내면 단말기의 문자요금을 소비합니다.\n인증번호를 보내시겠습니까?</string>
+    <string name="unmatched_certified_number">인증번호가 일치하지 않습니다.</string>
+    <string name="matched_certified_number">인증되었습니다.</string>
 </resources>
