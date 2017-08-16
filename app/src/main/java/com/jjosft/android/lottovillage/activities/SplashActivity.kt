@@ -2,10 +2,9 @@ package com.jjosft.android.lottovillage.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
-import com.jjosft.android.lottovillage.base.BaseActivity
 import com.jjosft.android.lottovillage.R
+import com.jjosft.android.lottovillage.base.BaseActivity
 
 
 class SplashActivity : BaseActivity() {
@@ -22,10 +21,10 @@ class SplashActivity : BaseActivity() {
 
     fun customOnClick(view: View) {
         when (view.id) {
-            R.id.button_register -> {
+            R.id.button_go_to_register -> {
                 startActivity(Intent(applicationContext, RegisterActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
             }
-            R.id.button_login -> {
+            R.id.button_go_to_login -> {
                 startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
             }
         }
