@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import android.widget.Toast
 import com.jjosft.android.lottovillage.R
 
@@ -29,7 +30,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     // 권한이 있는지 확인하는 작업
-    protected fun checkPermissionAndSetDisplayData(requestPermission : String): Boolean {
+    protected fun checkPermissionAndSetDisplayData(requestPermission: String): Boolean {
         if (!checkAndExplainPermission(requestPermission)) {
             ActivityCompat.requestPermissions(this, arrayOf(requestPermission), 1)
             return false
@@ -59,5 +60,14 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -2,112 +2,153 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/greyBackground">
+    style="@style/DefaultParentLayout">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_animation_splash"
-            android:layout_width="@dimen/lottie_animation_size"
-            android:layout_height="@dimen/lottie_animation_size"
-            app:lottie_autoPlay="true"
-            app:lottie_cacheStrategy="strong"
-            app:lottie_fileName="lego_loader.json"
-            app:lottie_loop="true" />
+        android:layout_margin="@dimen/default_layout_margin"
+        android:background="@drawable/attr_layout_normal">
 
         <LinearLayout
-            android:id="@+id/linear_lotto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_above="@+id/linear_splash_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_64"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
-            <ImageView
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_animation_splash"
+                android:layout_width="@dimen/lottie_animation_size"
+                android:layout_height="@dimen/lottie_animation_size"
+                app:lottie_autoPlay="true"
+                app:lottie_cacheStrategy="strong"
+                app:lottie_fileName="lego_loader.json"
+                app:lottie_loop="true" />
+
+            <LinearLayout
+                android:id="@+id/linear_lotto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_l_red" />
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-            <ImageView
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_l_red" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_o_red" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_t_red" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_t_red" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_o_red" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_village"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_o_red" />
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_t_red" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_v_blue" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_t_red" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_i_blue" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_o_red" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_l_blue" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_l_blue" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_a_blue" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_g_blue" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_letter_e_blue" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear_village"
-            android:layout_width="wrap_content"
+            android:id="@id/linear_splash_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_64"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/button_register"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_v_blue" />
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/attr_button_init"
+                android:onClick="customOnClick"
+                android:text="@string/register"
+                android:textColor="@color/blackText" />
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/button_login"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_i_blue" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_l_blue" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_l_blue" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_a_blue" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_g_blue" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_letter_e_blue" />
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/attr_button_init"
+                android:onClick="customOnClick"
+                android:text="@string/login"
+                android:textColor="@color/blackText" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

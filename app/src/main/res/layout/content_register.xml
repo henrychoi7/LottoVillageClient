@@ -2,9 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/greyBackground"
+    style="@style/DefaultParentLayout"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.RegisterActivity"
     tools:showIn="@layout/activity_register">
@@ -13,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp">
+        android:paddingEnd="@dimen/default_layout_margin"
+        android:paddingStart="@dimen/default_layout_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,33 +23,21 @@
 
             <com.jjosft.android.lottovillage.base.ClearEditText
                 android:id="@+id/edit_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
+                style="@style/DefaultEditText"
                 android:hint="@string/nick_name"
-                android:inputType="text"
-                android:textColor="@color/blackText"
-                android:textColorHint="@color/blackText" />
+                android:inputType="text" />
 
             <com.jjosft.android.lottovillage.base.PasswordEditText
                 android:id="@+id/edit_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
+                style="@style/DefaultEditText"
                 android:hint="@string/password"
-                android:inputType="textPassword"
-                android:textColor="@color/blackText"
-                android:textColorHint="@color/blackText" />
+                android:inputType="textPassword" />
 
             <com.jjosft.android.lottovillage.base.PasswordEditText
                 android:id="@+id/edit_confirm_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
+                style="@style/DefaultEditText"
                 android:hint="@string/confirm_password"
-                android:inputType="textPassword"
-                android:textColor="@color/blackText"
-                android:textColorHint="@color/blackText" />
+                android:inputType="textPassword" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,15 +46,11 @@
 
                 <EditText
                     android:id="@+id/edit_phone_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/DefaultEditText"
                     android:layout_weight="2"
-                    android:drawablePadding="10dp"
                     android:drawableStart="@drawable/ic_phone_24dp"
                     android:hint="@string/phone_number"
                     android:inputType="phone"
-                    android:textColor="@color/blackText"
-                    android:textColorHint="@color/blackText"
                     tools:ignore="TextFields" />
 
                 <Button
@@ -90,14 +72,10 @@
 
                 <EditText
                     android:id="@+id/edit_confirm_certified"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/DefaultEditText"
                     android:layout_weight="2"
-                    android:drawablePadding="10dp"
                     android:drawableStart="@drawable/ic_verified_user_24dp"
-                    android:hint="@string/confirm_certified"
-                    android:textColor="@color/blackText"
-                    android:textColorHint="@color/blackText" />
+                    android:hint="@string/confirm_certified" />
 
                 <Button
                     android:id="@+id/button_confirm_certified"
@@ -123,6 +101,8 @@
                 android:id="@+id/checked_text_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:layout_marginTop="@dimen/margin_5"
                 android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                 android:onClick="customOnClick"
                 android:text="@string/service_terms_conditions" />
@@ -131,22 +111,18 @@
                 android:id="@+id/checked_text_personal_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:layout_marginTop="@dimen/margin_5"
                 android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                 android:onClick="customOnClick"
                 android:text="@string/personal_information_terms_conditions" />
 
             <Button
                 android:id="@+id/button_registered"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="50dp"
-                android:layout_marginStart="50dp"
-                android:background="@drawable/attr_button_complete"
+                style="@style/ConfirmButton"
                 android:enabled="false"
                 android:onClick="customOnClick"
-                android:text="@string/registered"
-                android:textColor="@color/white"
-                android:textSize="23sp" />
+                android:text="@string/registered" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

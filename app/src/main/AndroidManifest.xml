@@ -36,12 +36,10 @@
         </activity>
         <activity
             android:name=".activities.RegisterActivity"
-            android:label="@string/register"
             android:theme="@style/AppTheme.NoTitleBar" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.MainActivity" />
         <activity
-            android:name=".activities.InitActivity"
+            android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme.NoTitleBar" />
+        <activity android:name=".activities.MainActivity" />
     </application>
 </manifest>
