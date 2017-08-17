@@ -32,11 +32,22 @@ dependencies {
     implementation 'com.android.support:design:26.0.1'
     implementation 'com.android.support:support-vector-drawable:26.0.1'
 
+    //https://github.com/facebook/stetho
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+
     // https://github.com/square/retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //https://github.com/square/retrofit/tree/master/retrofit-adapters/rxjava2
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     //https://github.com/square/okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    //https://github.com/ReactiveX/RxAndroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
 
     //https://github.com/airbnb/lottie-android
     implementation 'com.airbnb.android:lottie:2.1.2'
