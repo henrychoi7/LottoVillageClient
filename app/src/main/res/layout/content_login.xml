@@ -9,32 +9,33 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/attr_layout_normal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/login_edit_phone_number"
+            style="@style/DefaultEditText"
+            android:drawableStart="@drawable/ic_phone_24dp"
+            android:hint="@string/phone_number"
+            android:inputType="phone" />
+
+        <com.jjosft.android.lottovillage.base.PasswordEditText
+            android:id="@+id/login_edit_password"
+            style="@style/DefaultEditText"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
+
+        <CheckBox
+            android:id="@+id/login_check_auto_login"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/attr_layout_normal"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:text="@string/auto_login"
+            android:textColor="@color/black" />
 
-            <com.jjosft.android.lottovillage.base.ClearEditText
-                android:id="@+id/edit_name"
-                style="@style/DefaultEditText"
-                android:hint="@string/nick_name"
-                android:inputType="text" />
-
-            <com.jjosft.android.lottovillage.base.PasswordEditText
-                android:id="@+id/edit_password"
-                style="@style/DefaultEditText"
-                android:hint="@string/password"
-                android:inputType="textPassword" />
-
-            <Button
-                android:id="@+id/button_login"
-                style="@style/ConfirmButton"
-                android:onClick="customOnClick"
-                android:text="@string/login" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/login_button_login"
+            style="@style/ConfirmButton"
+            android:onClick="customOnClick"
+            android:text="@string/login" />
     </LinearLayout>
 </RelativeLayout>

@@ -9,7 +9,7 @@ import okhttp3.Response
  * Created by JJSOFT-DESKTOP on 2017-08-17.
  */
 class ReceivedCookiesInterceptor(context: Context) : Interceptor {
-    private val mSharedPreferences: SharedPreferences = context.getSharedPreferences(BaseApplication.KEY_COOKIE_PREFERENCES, Context.MODE_PRIVATE)
+    private val mSharedPreferences: SharedPreferences = context.getSharedPreferences(BaseApplication.LOTTO_VILLAGE_PREFERENCES, Context.MODE_PRIVATE)
 
     override fun intercept(chain: Interceptor.Chain?): Response {
         val originalResponse: Response = chain!!.proceed(chain.request())

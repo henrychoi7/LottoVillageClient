@@ -1,40 +1,59 @@
 package com.jjosft.android.lottovillage.activities
 
 import android.Manifest
-import android.app.Activity
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import com.jjosft.android.lottovillage.R
 import com.jjosft.android.lottovillage.base.BaseActivity
 import com.jjosft.android.lottovillage.base.BaseApplication
+import com.jjosft.android.lottovillage.model.Model
 import com.yarolegovich.lovelydialog.LovelyStandardDialog
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.content_register.*
+import okhttp3.RequestBody
+import org.json.JSONObject
 import java.util.regex.Pattern
 
 
 class RegisterActivity : BaseActivity() {
+    private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val mSharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences(BaseApplication.LOTTO_VILLAGE_PREFERENCES, Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        setSupportActionBar(toolbar_register)
+        setSupportActionBar(register_toolbar_register)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mCompositeDisposable.clear()
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         val certifiedNumber = intent.getStringExtra("certified_number")
-        edit_confirm_certified.setText(certifiedNumber)
+        register_edit_confirm_certified.setText(certifiedNumber)
     }
 
     fun customOnClick(view: View) {
         when (view.id) {
-            R.id.button_certified -> {
+            R.id.register_button_certified -> {
                 LovelyStandardDialog(this)
                         .setTopColorRes(R.color.colorPrimary)
                         .setButtonsColorRes(R.color.colorPrimaryDark)
@@ -53,33 +72,33 @@ class RegisterActivity : BaseActivity() {
                         .setNegativeButton(R.string.cancel, null)
                         .show()
             }
-            R.id.button_confirm_certified -> {
+            R.id.register_button_confirm_certified -> {
                 validateCertified()
             }
-            R.id.checked_text_service -> {
-                checked_text_service.isChecked = !checked_text_service.isChecked
+            R.id.register_checked_text_service -> {
+                register_checked_text_service.isChecked = !register_checked_text_service.isChecked
             }
-            R.id.checked_text_personal_information -> {
-                checked_text_personal_information.isChecked = !checked_text_personal_information.isChecked
+            R.id.register_checked_text_personal_information -> {
+                register_checked_text_personal_information.isChecked = !register_checked_text_personal_information.isChecked
             }
-            R.id.button_registered -> {
+            R.id.register_button_register -> {
                 validateRegister()
             }
+            R.id.register_text_terms_conditions -> Toast.makeText(applicationContext, "아직 개발중", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun validateCertified() {
-        val sharedPreferences = applicationContext.getSharedPreferences(BaseApplication.PREF_ID, Activity.MODE_PRIVATE)
-        val certifiedNumber = sharedPreferences.getString(BaseApplication.CERTIFIED_NUMBER, null)
-        if (certifiedNumber == null || edit_confirm_certified.text.toString() != certifiedNumber) {
-            edit_confirm_certified.requestFocus()
-            edit_confirm_certified.error = getString(R.string.unmatched_certified_number)
+        val certifiedNumber = mSharedPreferences.getString(BaseApplication.CERTIFIED_NUMBER, null)
+        if (certifiedNumber == null || register_edit_confirm_certified.text.toString() != certifiedNumber) {
+            register_edit_confirm_certified.requestFocus()
+            register_edit_confirm_certified.error = getString(R.string.unmatched_certified_number)
         } else {
-            edit_phone_number.isEnabled = false
-            button_certified.isEnabled = false
-            edit_confirm_certified.isEnabled = false
-            button_confirm_certified.isEnabled = false
-            button_registered.isEnabled = true
+            register_edit_phone_number.isEnabled = false
+            register_button_certified.isEnabled = false
+            register_edit_confirm_certified.isEnabled = false
+            register_button_confirm_certified.isEnabled = false
+            register_button_register.isEnabled = true
             Toast.makeText(applicationContext, getString(R.string.matched_certified_number), Toast.LENGTH_SHORT).show()
         }
     }
@@ -89,30 +108,123 @@ class RegisterActivity : BaseActivity() {
         val sentIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_SENT_ACTION"), 0);
         val deliveredIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_DELIVERED_ACTION"), 0)
 
-        val editTextPhoneNumber = edit_phone_number.text.toString()
-        val isValidate = Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}\$", editTextPhoneNumber)
+        val editTextPhoneNumberString = register_edit_phone_number.text.toString()
+        val isValidate = validatePhoneNumber(editTextPhoneNumberString)
 
         if (isValidate) {
             val certifiedNumber = randomRange(10000, 99999).toString()
-            val sharedPreferencesEditors = applicationContext.getSharedPreferences(BaseApplication.PREF_ID, Activity.MODE_PRIVATE).edit()
+            val sharedPreferencesEditors = mSharedPreferences.edit()
             sharedPreferencesEditors.putString(BaseApplication.CERTIFIED_NUMBER, certifiedNumber)
             sharedPreferencesEditors.apply()
-            smsManager.sendTextMessage(editTextPhoneNumber.replace("-", ""), null, getString(R.string.message_front) + certifiedNumber + getString(R.string.message_back), sentIntent, deliveredIntent)
+            smsManager.sendTextMessage(editTextPhoneNumberString.replace("-", ""), null, getString(R.string.message_front) + certifiedNumber + getString(R.string.message_back), sentIntent, deliveredIntent)
         } else {
-            edit_phone_number.requestFocus()
-            edit_phone_number.error = getString(R.string.unmatched_phone_number)
+            register_edit_phone_number.requestFocus()
+            register_edit_phone_number.error = getString(R.string.unmatched_phone_number)
         }
     }
 
     private fun randomRange(from: Int, to: Int): Int {
         return ((Math.random() * (to - from + 1)) + from).toInt()
     }
-}
 
-private fun validateRegister() {
-    /*val editTextName = edit_name.text
-    val editTextPassword = edit_password.text
-    val editTextConfirmPassword = edit_confirm_password.text
-    val editTextPhoneNumber = edit_phone_number.text
-    val editTextConfirmCertified = edit_confirm_certified.text*/
+    private fun validatePhoneNumber(phoneNumberString: String): Boolean = Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}\$", phoneNumberString)
+
+    private fun validateRegister() {
+        if (isDeniedValueValidation(register_edit_name)) return
+        if (isDeniedValueValidation(register_edit_password)) return
+        if (isDeniedValueValidation(register_edit_password_confirm)) return
+        if (isDeniedValueValidation(register_edit_phone_number)) return
+        if (isDeniedValueValidation(register_edit_confirm_certified)) return
+        if (!register_checked_text_service.isChecked) {
+            register_checked_text_service.error = getString(R.string.service_terms_conditions)
+            Toast.makeText(applicationContext, getString(R.string.service_terms_conditions), Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (!register_checked_text_personal_information.isChecked) {
+            register_checked_text_personal_information.error = getString(R.string.personal_information_terms_conditions)
+            Toast.makeText(applicationContext, getString(R.string.personal_information_terms_conditions), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val jsonObject = JSONObject()
+        jsonObject.put("name", register_edit_name.text.toString())
+        jsonObject.put("password", register_edit_password.text.toString())
+        jsonObject.put("password_confirm", register_edit_password_confirm.text.toString())
+        jsonObject.put("phone_number", register_edit_phone_number.text.toString())
+
+        BaseApplication.getRetrofitMethod().postRegister(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<Model.DefaultResponse> {
+                    override fun onSubscribe(d: Disposable) {
+                        mCompositeDisposable.add(d)
+                        progressOn(getString(R.string.send_to_request_register))
+                    }
+
+                    override fun onNext(t: Model.DefaultResponse) {
+                        if (t.isSuccess) {
+                            Toast.makeText(applicationContext, "성공", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(applicationContext, t.errorMessage, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Toast.makeText(applicationContext, "실패 ${e.message}", Toast.LENGTH_SHORT).show()
+                        progressOff()
+                    }
+
+                    override fun onComplete() {
+                        progressOff()
+                    }
+                })
+    }
+
+    private fun isDeniedValueValidation(targetEditText: EditText): Boolean {
+        val targetValueString = targetEditText.text.toString()
+        if (targetValueString.isEmpty()) {
+            targetEditText.requestFocus()
+            targetEditText.error = getString(R.string.empty_value)
+            return true
+        }
+
+        when (targetEditText.id) {
+            R.id.register_edit_name -> {
+                if (targetValueString.length !in 3..10) {
+                    targetEditText.requestFocus()
+                    targetEditText.error = "3" + getString(R.string.deny_value_length)
+                    return true
+                }
+            }
+            R.id.register_edit_phone_number -> {
+                if (!validatePhoneNumber(targetValueString)) {
+                    targetEditText.requestFocus()
+                    targetEditText.error = getString(R.string.unmatched_phone_number)
+                    return true
+                }
+            }
+            R.id.register_edit_confirm_certified -> {
+                if (targetValueString.length != 5) {
+                    targetEditText.requestFocus()
+                    targetEditText.error = getString(R.string.unmatched_certified_number)
+                    return true
+                }
+            }
+        //or 로 둘중 하나일때 체크하려고했는데 안먹혀서 else 로 빠지도록 함.
+        //R.id.register_edit_password.or(R.id.register_edit_confirm_password)
+            else -> {
+                if (targetValueString.length !in 6..10) {
+                    targetEditText.requestFocus()
+                    targetEditText.error = "6" + getString(R.string.deny_value_length)
+                    return true
+                } else if (register_edit_password.text.toString() != register_edit_password_confirm.text.toString()) {
+                    targetEditText.requestFocus()
+                    targetEditText.error = getString(R.string.unmatched_password)
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
 }

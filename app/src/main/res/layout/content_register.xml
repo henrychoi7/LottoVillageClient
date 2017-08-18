@@ -10,9 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingEnd="@dimen/default_layout_margin"
-        android:paddingStart="@dimen/default_layout_margin">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,19 +20,19 @@
             android:padding="20dp">
 
             <com.jjosft.android.lottovillage.base.ClearEditText
-                android:id="@+id/edit_name"
+                android:id="@+id/register_edit_name"
                 style="@style/DefaultEditText"
-                android:hint="@string/nick_name"
+                android:hint="@string/name"
                 android:inputType="text" />
 
             <com.jjosft.android.lottovillage.base.PasswordEditText
-                android:id="@+id/edit_password"
+                android:id="@+id/register_edit_password"
                 style="@style/DefaultEditText"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
 
             <com.jjosft.android.lottovillage.base.PasswordEditText
-                android:id="@+id/edit_confirm_password"
+                android:id="@+id/register_edit_password_confirm"
                 style="@style/DefaultEditText"
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword" />
@@ -45,7 +43,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/edit_phone_number"
+                    android:id="@+id/register_edit_phone_number"
                     style="@style/DefaultEditText"
                     android:layout_weight="2"
                     android:drawableStart="@drawable/ic_phone_24dp"
@@ -54,11 +52,12 @@
                     tools:ignore="TextFields" />
 
                 <Button
-                    android:id="@+id/button_certified"
+                    android:id="@+id/register_button_certified"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/attr_button_init"
+                    android:focusable="false"
                     android:inputType="number"
                     android:onClick="customOnClick"
                     android:text="@string/send_message"
@@ -71,17 +70,18 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/edit_confirm_certified"
+                    android:id="@+id/register_edit_confirm_certified"
                     style="@style/DefaultEditText"
                     android:layout_weight="2"
                     android:drawableStart="@drawable/ic_verified_user_24dp"
                     android:hint="@string/confirm_certified" />
 
                 <Button
-                    android:id="@+id/button_confirm_certified"
+                    android:id="@+id/register_button_confirm_certified"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:focusable="false"
                     android:background="@drawable/attr_button_init"
                     android:inputType="number"
                     android:onClick="customOnClick"
@@ -98,7 +98,7 @@
             android:padding="20dp">
 
             <CheckedTextView
-                android:id="@+id/checked_text_service"
+                android:id="@+id/register_checked_text_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_5"
@@ -108,7 +108,7 @@
                 android:text="@string/service_terms_conditions" />
 
             <CheckedTextView
-                android:id="@+id/checked_text_personal_information"
+                android:id="@+id/register_checked_text_personal_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_5"
@@ -117,10 +117,20 @@
                 android:onClick="customOnClick"
                 android:text="@string/personal_information_terms_conditions" />
 
+            <TextView
+                android:id="@+id/register_text_terms_conditions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:layout_marginTop="@dimen/margin_5"
+                android:onClick="customOnClick"
+                android:text="약관을 자세히 보시려면 눌러주세요."
+                android:textColor="@color/blackText" />
+
             <Button
-                android:id="@+id/button_registered"
+                android:id="@+id/register_button_register"
                 style="@style/ConfirmButton"
-                android:enabled="false"
+                android:enabled="true"
                 android:onClick="customOnClick"
                 android:text="@string/registered" />
         </LinearLayout>

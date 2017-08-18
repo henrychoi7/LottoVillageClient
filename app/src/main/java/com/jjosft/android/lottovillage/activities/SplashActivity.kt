@@ -1,10 +1,13 @@
 package com.jjosft.android.lottovillage.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import com.jjosft.android.lottovillage.R
 import com.jjosft.android.lottovillage.base.BaseActivity
+import com.jjosft.android.lottovillage.base.BaseApplication
 
 
 class SplashActivity : BaseActivity() {
@@ -13,18 +16,17 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        /*Handler().postDelayed({
-            startActivity(Intent(applicationContext, InitActivity::class.java))
-            finish()
-        }, 3000)*/
+        val sharedPreferences: SharedPreferences = getSharedPreferences(BaseApplication.LOTTO_VILLAGE_PREFERENCES, Context.MODE_PRIVATE)
+        // SharedPreferences 를 통하여 자동로그인 여부 확인
+        if (sharedPreferences.getBoolean(BaseApplication.AUTO_LOGIN, false)) startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
     }
 
     fun customOnClick(view: View) {
         when (view.id) {
-            R.id.button_go_to_register -> {
+            R.id.splash_button_go_to_register -> {
                 startActivity(Intent(applicationContext, RegisterActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
             }
-            R.id.button_go_to_login -> {
+            R.id.splash_button_go_to_login -> {
                 startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
             }
         }

@@ -9,6 +9,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.jjosft.android.lottovillage.R
 import com.jjosft.android.lottovillage.interfaces.RetrofitInterface
 import kotlinx.android.synthetic.main.progress_loading.*
+import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -24,10 +25,14 @@ open class BaseApplication : Application() {
         private lateinit var baseApplication: BaseApplication
         private lateinit var progressDialog: AppCompatDialog
         private var retrofit: Retrofit? = null
-        const val PREF_ID = "LOTTO_VILLAGE"
+        val MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8")
+        const val LOTTO_VILLAGE_PREFERENCES = "LOTTO_VILLAGE_PREFERENCES"
         const val CERTIFIED_NUMBER = "LOTTO_VILLAGE_CERTIFICATED_NUMBER"
-        const val KEY_COOKIE = "jjsoft_lotto_village"
-        const val KEY_COOKIE_PREFERENCES = "LOTTO_VILLAGE_PREFERENCES"
+        const val KEY_COOKIE = "JJSOFT_LOTTO_VILLAGE_COOKIE"
+        const val AUTO_LOGIN = "JJSOFT_LOTTO_VILLAGE_AUTO_LOGIN"
+        const val PHONE_NUMBER = "JJSOFT_LOTTO_VILLAGE_PHONE_NUMBER"
+        const val PASSWORD = "JJSOFT_LOTTO_VILLAGE_PASSWORD"
+
 
         fun getInstance(): BaseApplication {
             return baseApplication

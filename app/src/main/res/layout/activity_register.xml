@@ -2,9 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/greyBackground"
+    style="@style/DefaultParentLayout"
     android:fitsSystemWindows="true"
     tools:context=".activities.RegisterActivity">
 
@@ -15,9 +13,9 @@
         android:background="@drawable/attr_layout_title">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_register"
+            android:id="@+id/register_toolbar_register"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             app:theme="@style/ToolbarColoredBackArrow">
 
             <RelativeLayout

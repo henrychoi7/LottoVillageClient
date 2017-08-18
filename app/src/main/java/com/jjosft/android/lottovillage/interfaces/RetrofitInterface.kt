@@ -18,9 +18,9 @@ interface RetrofitInterface {
     @GET("login")
     fun getLogin(@Query("phone_no") phoneNo: String, @Query("password") password: String): Observable<Model.DefaultResponse>
 
-    /*@GET("logout")
-    fun getLogout()*/
+    @GET("logout")
+    fun getLogout(): Observable<Model.DefaultResponse>
 
-    @POST("auth/register")
-    fun postRegister(@Body params: RequestBody): Flowable<Model.DefaultResponse>
+    @POST("register")
+    fun postRegister(@Body params: RequestBody): Observable<Model.DefaultResponse>
 }
