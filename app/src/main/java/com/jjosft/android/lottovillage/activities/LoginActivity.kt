@@ -30,7 +30,7 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        setSupportActionBar(register_toolbar_login)
+        setSupportActionBar(login_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         login_edit_phone_number.setText("010-8759-6912")
@@ -85,7 +85,7 @@ class LoginActivity : BaseActivity() {
                         if (t.isSuccess) {
                             if (!mIsCheckedAutoLogin.and(login_check_auto_login.isChecked)) {
                                 val sharedPreferencesEditors = mSharedPreferences.edit()
-                                sharedPreferencesEditors.putBoolean(BaseApplication.AUTO_LOGIN, true)
+                                sharedPreferencesEditors.putBoolean(BaseApplication.AUTO_LOGIN, login_check_auto_login.isChecked)
                                 sharedPreferencesEditors.putString(BaseApplication.PHONE_NUMBER, phoneNumberString)
                                 sharedPreferencesEditors.putString(BaseApplication.PASSWORD, passwordString)
                                 sharedPreferencesEditors.apply()

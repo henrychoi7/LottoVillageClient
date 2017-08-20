@@ -18,7 +18,6 @@
             android:layout_width="@dimen/lottie_animation_size"
             android:layout_height="@dimen/lottie_animation_size"
             app:lottie_autoPlay="true"
-            app:lottie_cacheStrategy="strong"
             app:lottie_fileName="lego_loader.json"
             app:lottie_loop="true" />
 
@@ -143,4 +142,13 @@
             android:text="@string/login"
             android:textColor="@color/blackText" />
     </LinearLayout>
+    <Button
+        android:id="@+id/splash_button_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/attr_button_init"
+        android:onClick="customOnClick"
+        android:text="메인으로"
+        android:textColor="@color/blackText" />
 </RelativeLayout>

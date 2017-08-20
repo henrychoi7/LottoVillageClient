@@ -7,13 +7,10 @@
     tools:context=".activities.RegisterActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/attr_layout_title">
+        style="@style/DefaultAppBarLayout">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/register_toolbar_register"
+            android:id="@+id/register_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:theme="@style/ToolbarColoredBackArrow">

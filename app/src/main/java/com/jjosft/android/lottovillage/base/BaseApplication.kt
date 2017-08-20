@@ -52,8 +52,8 @@ open class BaseApplication : Application() {
     private fun getClient(): Retrofit {
         if (retrofit == null) {
             val client : OkHttpClient = OkHttpClient.Builder()
-                    .readTimeout(30000, TimeUnit.MILLISECONDS)
-                    .connectTimeout(30000, TimeUnit.MILLISECONDS)
+                    .readTimeout(10000, TimeUnit.MILLISECONDS)
+                    .connectTimeout(10000, TimeUnit.MILLISECONDS)
                     .addInterceptor(AddCookiesInterceptor(applicationContext))
                     .addInterceptor(ReceivedCookiesInterceptor(applicationContext))
                     .addNetworkInterceptor(StethoInterceptor())

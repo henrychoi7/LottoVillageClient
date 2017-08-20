@@ -23,4 +23,10 @@ interface RetrofitInterface {
 
     @POST("register")
     fun postRegister(@Body params: RequestBody): Observable<Model.DefaultResponse>
+
+    @POST("details_of_participation")
+    fun postDetailsOfParticipation(@Body params: RequestBody): Observable<Model.DefaultResponse>
+
+    @POST("participation")
+    fun postParticipation(@Body params: RequestBody): Observable<Model.DefaultResponse>
 }

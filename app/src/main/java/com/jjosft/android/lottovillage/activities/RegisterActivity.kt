@@ -36,7 +36,7 @@ class RegisterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        setSupportActionBar(register_toolbar_register)
+        setSupportActionBar(register_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -163,7 +163,8 @@ class RegisterActivity : BaseActivity() {
 
                     override fun onNext(t: Model.DefaultResponse) {
                         if (t.isSuccess) {
-                            Toast.makeText(applicationContext, "성공", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, getString(R.string.complete_to_register), Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
                         } else {
                             Toast.makeText(applicationContext, t.errorMessage, Toast.LENGTH_SHORT).show()
                         }
