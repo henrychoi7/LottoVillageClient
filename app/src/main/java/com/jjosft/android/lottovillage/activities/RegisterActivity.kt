@@ -105,7 +105,7 @@ class RegisterActivity : BaseActivity() {
 
     private fun sendSms() {
         val smsManager = SmsManager.getDefault()
-        val sentIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_SENT_ACTION"), 0);
+        val sentIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_SENT_ACTION"), 0)
         val deliveredIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_DELIVERED_ACTION"), 0)
 
         val editTextPhoneNumberString = register_edit_phone_number.text.toString()
@@ -113,9 +113,9 @@ class RegisterActivity : BaseActivity() {
 
         if (isValidate) {
             val certifiedNumber = randomRange(10000, 99999).toString()
-            val sharedPreferencesEditors = mSharedPreferences.edit()
-            sharedPreferencesEditors.putString(BaseApplication.CERTIFIED_NUMBER, certifiedNumber)
-            sharedPreferencesEditors.apply()
+            val sharedPreferencesEditor = mSharedPreferences.edit()
+            sharedPreferencesEditor.putString(BaseApplication.CERTIFIED_NUMBER, certifiedNumber)
+            sharedPreferencesEditor.apply()
             smsManager.sendTextMessage(editTextPhoneNumberString.replace("-", ""), null, getString(R.string.message_front) + certifiedNumber + getString(R.string.message_back), sentIntent, deliveredIntent)
         } else {
             register_edit_phone_number.requestFocus()

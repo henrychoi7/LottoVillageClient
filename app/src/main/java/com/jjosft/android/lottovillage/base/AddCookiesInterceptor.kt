@@ -14,10 +14,10 @@ class AddCookiesInterceptor(context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain?): Response {
         val builder : Request.Builder = chain!!.request().newBuilder()
 
-        val cookiesStringSet : HashSet<String>? = mSharedPreferences.getStringSet(BaseApplication.KEY_COOKIE, HashSet()) as HashSet<String>?
-        if (cookiesStringSet != null) {
-            for (cookie in cookiesStringSet) {
-                builder.addHeader("cookie", cookie)
+        val tokensStringSet : HashSet<String> = mSharedPreferences.getStringSet(BaseApplication.X_ACCESS_TOKEN, HashSet()) as HashSet<String>
+        if (tokensStringSet.size != 0) {
+            for (token in tokensStringSet) {
+                builder.addHeader("x-access-token", token)
             }
         }
         return chain.proceed(builder.build())

@@ -28,7 +28,7 @@ open class BaseApplication : Application() {
         val MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8")
         const val LOTTO_VILLAGE_PREFERENCES = "LOTTO_VILLAGE_PREFERENCES"
         const val CERTIFIED_NUMBER = "LOTTO_VILLAGE_CERTIFICATED_NUMBER"
-        const val KEY_COOKIE = "JJSOFT_LOTTO_VILLAGE_COOKIE"
+        const val X_ACCESS_TOKEN = "JJSOFT_LOTTO_VILLAGE_TOKEN"
         const val AUTO_LOGIN = "JJSOFT_LOTTO_VILLAGE_AUTO_LOGIN"
         const val PHONE_NUMBER = "JJSOFT_LOTTO_VILLAGE_PHONE_NUMBER"
         const val PASSWORD = "JJSOFT_LOTTO_VILLAGE_PASSWORD"

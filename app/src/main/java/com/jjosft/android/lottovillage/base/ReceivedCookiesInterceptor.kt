@@ -14,12 +14,12 @@ class ReceivedCookiesInterceptor(context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain?): Response {
         val originalResponse: Response = chain!!.proceed(chain.request())
 
-        if (!originalResponse.headers("set-cookie").isEmpty()) {
-            val cookies : HashSet<String> = HashSet()
-            cookies += originalResponse.headers("set-cookie")
+        if (!originalResponse.headers("x-access-token").isEmpty()) {
+            val tokens : HashSet<String> = HashSet()
+            tokens += originalResponse.headers("x-access-token")
 
             val sharedPreferencesEditor: SharedPreferences.Editor = mSharedPreferences.edit()
-            sharedPreferencesEditor.putStringSet(BaseApplication.KEY_COOKIE, cookies)
+            sharedPreferencesEditor.putStringSet(BaseApplication.X_ACCESS_TOKEN, tokens)
             sharedPreferencesEditor.apply()
         }
 

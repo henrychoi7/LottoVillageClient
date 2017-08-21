@@ -17,6 +17,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.content_login.*
+import okhttp3.RequestBody
+import org.json.JSONObject
 import java.util.regex.Pattern
 
 
@@ -33,14 +35,11 @@ class LoginActivity : BaseActivity() {
         setSupportActionBar(login_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        login_edit_phone_number.setText("010-8759-6912")
-
         // SharedPreferences 를 통하여 자동로그인 여부 확인
         mIsCheckedAutoLogin = mSharedPreferences.getBoolean(BaseApplication.AUTO_LOGIN, false)
+        login_check_auto_login.isChecked = mIsCheckedAutoLogin
 
         if (mIsCheckedAutoLogin) {
-            login_edit_phone_number.setText(mSharedPreferences.getString(BaseApplication.PHONE_NUMBER, null))
-            login_edit_password.setText(mSharedPreferences.getString(BaseApplication.PASSWORD, null))
             validateLogin()
         }
     }
@@ -57,22 +56,29 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun validateLogin() {
-        val phoneNumberString = login_edit_phone_number.text.toString()
-        val passwordString = login_edit_password.text.toString()
+        val tokensStringSet: HashSet<String> = mSharedPreferences.getStringSet(BaseApplication.X_ACCESS_TOKEN, HashSet()) as HashSet<String>
+        val jsonObject = JSONObject()
+        if (tokensStringSet.size == 0 || !mIsCheckedAutoLogin) {
+            val phoneNumberString = login_edit_phone_number.text.toString()
+            val passwordString = login_edit_password.text.toString()
 
-        if (phoneNumberString.isEmpty().or(!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}\$", phoneNumberString))) {
-            login_edit_phone_number.requestFocus()
-            login_edit_phone_number.error = getString(R.string.unmatched_phone_number)
-            return
+            if (phoneNumberString.isEmpty().or(!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}\$", phoneNumberString))) {
+                login_edit_phone_number.requestFocus()
+                login_edit_phone_number.error = getString(R.string.unmatched_phone_number)
+                return
+            }
+
+            if (passwordString.isEmpty().or(passwordString.length !in 6..10)) {
+                login_edit_password.requestFocus()
+                login_edit_password.error = "6" + getString(R.string.deny_value_length)
+                return
+            }
+
+            jsonObject.put("phone_number", phoneNumberString)
+            jsonObject.put("password", passwordString)
         }
 
-        if (passwordString.isEmpty().or(passwordString.length !in 6..10)) {
-            login_edit_password.requestFocus()
-            login_edit_password.error = "6" + getString(R.string.deny_value_length)
-            return
-        }
-
-        BaseApplication.getRetrofitMethod().getLogin(phoneNumberString, passwordString)
+        BaseApplication.getRetrofitMethod().postLogin(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Model.DefaultResponse> {
@@ -84,11 +90,9 @@ class LoginActivity : BaseActivity() {
                     override fun onNext(t: Model.DefaultResponse) {
                         if (t.isSuccess) {
                             if (!mIsCheckedAutoLogin.and(login_check_auto_login.isChecked)) {
-                                val sharedPreferencesEditors = mSharedPreferences.edit()
-                                sharedPreferencesEditors.putBoolean(BaseApplication.AUTO_LOGIN, login_check_auto_login.isChecked)
-                                sharedPreferencesEditors.putString(BaseApplication.PHONE_NUMBER, phoneNumberString)
-                                sharedPreferencesEditors.putString(BaseApplication.PASSWORD, passwordString)
-                                sharedPreferencesEditors.apply()
+                                val sharedPreferencesEditor = mSharedPreferences.edit()
+                                sharedPreferencesEditor.putBoolean(BaseApplication.AUTO_LOGIN, login_check_auto_login.isChecked)
+                                sharedPreferencesEditor.apply()
                             }
                             startActivity(Intent(applicationContext, MainActivity::class.java)
                                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK) // 기존에 쌓여있던 스택을 모두 없앤다.

@@ -1,5 +1,6 @@
 package com.jjosft.android.lottovillage.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -26,6 +27,8 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import okhttp3.RequestBody
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -51,6 +54,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         false
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -63,7 +67,18 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         main_nav_view.setNavigationItemSelectedListener(this)
 
-        detailsOfParticipation("1", "010-8759-6912", "123456")
+        val eventType = "1"
+        val eventDateFormat = SimpleDateFormat("yyMMdd")
+        eventDateFormat.timeZone = TimeZone.getTimeZone("Asia/Seoul")
+
+        val eventNumberFormat = SimpleDateFormat("HH")
+        eventNumberFormat.timeZone = TimeZone.getTimeZone("Asia/Seoul")
+
+        val dateTime = Date()
+        val eventDate = eventDateFormat.format(dateTime)
+        val eventNumber = eventNumberFormat.format(dateTime)
+
+        detailsOfParticipation(eventType, "170820", "21")
 
         /*progressOn(getString(R.string.loading))
 
@@ -141,62 +156,46 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun logout() {
-        BaseApplication.getRetrofitMethod().getLogout()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<Model.DefaultResponse> {
-                    override fun onSubscribe(d: Disposable) {
-                        mCompositeDisposable.add(d)
-                        progressOn(getString(R.string.send_to_request_logout))
-                    }
+        progressOn(getString(R.string.send_to_request_logout))
 
-                    override fun onNext(t: Model.DefaultResponse) {
-                        if (t.isSuccess) {
-                            val sharedPreferencesEditors = mSharedPreferences.edit()
-                            sharedPreferencesEditors.putBoolean(BaseApplication.AUTO_LOGIN, false)
-                            sharedPreferencesEditors.putString(BaseApplication.PHONE_NUMBER, "")
-                            sharedPreferencesEditors.putString(BaseApplication.PASSWORD, "")
-                            sharedPreferencesEditors.apply()
-                            Toast.makeText(applicationContext, getString(R.string.complete_to_logout), Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(applicationContext, SplashActivity::class.java))
-                            finish()
-                        } else {
-                            Toast.makeText(applicationContext, t.errorMessage, Toast.LENGTH_SHORT).show()
-                        }
-                    }
+        val sharedPreferencesEditor = mSharedPreferences.edit()
+        sharedPreferencesEditor.putBoolean(BaseApplication.AUTO_LOGIN, false)
+        sharedPreferencesEditor.putStringSet(BaseApplication.X_ACCESS_TOKEN, null)
+        sharedPreferencesEditor.apply()
 
-                    override fun onError(e: Throwable) {
-                        Toast.makeText(applicationContext, "실패 ${e.message}", Toast.LENGTH_SHORT).show()
-                        progressOff()
-                    }
+        progressOff()
 
-                    override fun onComplete() {
-                        progressOff()
-                    }
-                })
+        Toast.makeText(applicationContext, getString(R.string.complete_to_logout), Toast.LENGTH_SHORT).show()
+        startActivity(Intent(applicationContext, SplashActivity::class.java))
+        finish()
     }
 
-    private fun detailsOfParticipation(eventType: String, phoneNumber: String, password: String) {
+    private fun detailsOfParticipation(eventType: String, eventDate: String, eventNumber: String, isConfirmedStatus : Boolean = false) {
         val jsonObject = JSONObject()
         jsonObject.put("event_type", eventType)
-        jsonObject.put("phone_number", phoneNumber)
-        jsonObject.put("password", password)
+        jsonObject.put("event_date", eventDate)
+        jsonObject.put("event_number", eventNumber)
+        jsonObject.put("confirm_status", isConfirmedStatus)
 
         BaseApplication.getRetrofitMethod().postDetailsOfParticipation(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<Model.DefaultResponse>{
+                .subscribe(object : Observer<Model.ResultResponse> {
                     override fun onSubscribe(d: Disposable) {
                         mCompositeDisposable.add(d)
-                        progressOn(getString(R.string.send_to_request_register))
+                        progressOn(getString(R.string.request_detail_of_participation))
                     }
 
-                    override fun onNext(t: Model.DefaultResponse) {
+                    override fun onNext(t: Model.ResultResponse) {
                         if (t.isSuccess) {
                             Toast.makeText(applicationContext, "로또참여 내역 불러오기 성공", Toast.LENGTH_SHORT).show()
                             //startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
                         } else {
-                            Toast.makeText(applicationContext, t.errorMessage, Toast.LENGTH_SHORT).show()
+                            if (t.errorMessage == getString(R.string.unmatched_token_value)) {
+                                Toast.makeText(applicationContext, getString(R.string.request_login), Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(applicationContext, t.errorMessage, Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
 
@@ -223,7 +222,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 .subscribe(object : Observer<Model.DefaultResponse> {
                     override fun onSubscribe(d: Disposable) {
                         mCompositeDisposable.add(d)
-                        progressOn(getString(R.string.send_to_request_register))
+                        progressOn(getString(R.string.participating_lotto))
                     }
 
                     override fun onNext(t: Model.DefaultResponse) {
@@ -231,7 +230,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             Toast.makeText(applicationContext, "로또참여 성공", Toast.LENGTH_SHORT).show()
                             //startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
                         } else {
-                            Toast.makeText(applicationContext, t.errorMessage, Toast.LENGTH_SHORT).show()
+                            if (t.errorMessage == getString(R.string.unmatched_token_value)) {
+                                Toast.makeText(applicationContext, getString(R.string.request_login), Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(applicationContext, t.errorMessage, Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
 
