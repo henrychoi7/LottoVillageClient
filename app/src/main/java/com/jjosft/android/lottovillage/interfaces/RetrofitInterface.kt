@@ -4,7 +4,9 @@ import com.jjosft.android.lottovillage.model.Model
 import io.reactivex.Observable
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 
 /**
@@ -18,8 +20,14 @@ interface RetrofitInterface {
     @POST("register")
     fun postRegister(@Body params: RequestBody): Observable<Model.DefaultResponse>
 
-    @POST("details_of_participation")
-    fun postDetailsOfParticipation(@Body params: RequestBody): Observable<Model.ResultResponse>
+    @GET("details_of_lotto")
+    fun getDetailsOfLotto(@Query("rounds") rounds : String): Observable<Model.DefaultResponse>
+
+    @GET("details_of_participation")
+    fun getDetailsOfParticipation(@Query("event_type") eventType : String,
+                                  @Query("event_date") eventDate : String,
+                                  @Query("event_number") eventNumber : String,
+                                  @Query("confirm_status") isConfirmStatus : Boolean): Observable<Model.ResultResponse>
 
     @POST("participation")
     fun postParticipation(@Body params: RequestBody): Observable<Model.DefaultResponse>

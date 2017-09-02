@@ -5,6 +5,12 @@
     <color name="colorAccent">#2d2d2d</color>
     <color name="colorAccentDark">#181818</color>
 
+    <color name="yellow">#FFDC00</color>
+    <color name="blue">#0074D9</color>
+    <color name="green">#2ECC40</color>
+    <color name="red">#FF4136</color>
+    <color name="gray">#AAAAAA</color>
+
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="blackText">#727272</color>

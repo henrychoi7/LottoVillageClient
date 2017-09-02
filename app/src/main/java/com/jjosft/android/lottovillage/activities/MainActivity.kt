@@ -17,6 +17,7 @@ import com.jjosft.android.lottovillage.R
 import com.jjosft.android.lottovillage.base.BaseActivity
 import com.jjosft.android.lottovillage.base.BaseApplication
 import com.jjosft.android.lottovillage.model.Model
+import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -27,8 +28,6 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import okhttp3.RequestBody
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -67,24 +66,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         main_nav_view.setNavigationItemSelectedListener(this)
 
-        val eventType = "1"
-        val eventDateFormat = SimpleDateFormat("yyMMdd")
-        eventDateFormat.timeZone = TimeZone.getTimeZone("Asia/Seoul")
-
-        val eventNumberFormat = SimpleDateFormat("HH")
-        eventNumberFormat.timeZone = TimeZone.getTimeZone("Asia/Seoul")
-
-        val dateTime = Date()
-        val eventDate = eventDateFormat.format(dateTime)
-        val eventNumber = eventNumberFormat.format(dateTime)
-
-        detailsOfParticipation(eventType, "170820", "21")
-
-        /*progressOn(getString(R.string.loading))
-
-        Handler().postDelayed({
-            progressOff()
-        }, 1000)*/
+        detailsOfParticipation("1")
+        //detailsOfParticipation("2")
+        //detailsOfParticipation("3")
     }
 
     override fun onStop() {
@@ -103,13 +87,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     fun customOnClick(view: View) {
         when (view.id) {
             R.id.main_button_one_hour_apart_lotto -> {
-                participation("1", "010-8759-6912", "123456")
+                participation("1")
             }
             R.id.main_button_six_hour_apart_lotto -> {
-                participation("2", "010-8759-6912", "123456")
+                participation("2")
             }
             R.id.main_button_twelve_hour_apart_lotto -> {
-                participation("3", "010-8759-6912", "123456")
+                participation("3")
             }
         }
     }
@@ -170,14 +154,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         finish()
     }
 
-    private fun detailsOfParticipation(eventType: String, eventDate: String, eventNumber: String, isConfirmedStatus : Boolean = false) {
-        val jsonObject = JSONObject()
-        jsonObject.put("event_type", eventType)
-        jsonObject.put("event_date", eventDate)
-        jsonObject.put("event_number", eventNumber)
-        jsonObject.put("confirm_status", isConfirmedStatus)
-
-        BaseApplication.getRetrofitMethod().postDetailsOfParticipation(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
+    private fun detailsOfParticipation(eventType: String, eventDate: String = "", eventNumber: String = "", isConfirmedStatus : Boolean = false) {
+        BaseApplication.getRetrofitMethod().getDetailsOfParticipation(eventType, eventDate, eventNumber, isConfirmedStatus)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Model.ResultResponse> {
@@ -189,7 +167,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     override fun onNext(t: Model.ResultResponse) {
                         if (t.isSuccess) {
                             Toast.makeText(applicationContext, "로또참여 내역 불러오기 성공", Toast.LENGTH_SHORT).show()
-                            //startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
+
                         } else {
                             if (t.errorMessage == getString(R.string.unmatched_token_value)) {
                                 Toast.makeText(applicationContext, getString(R.string.request_login), Toast.LENGTH_SHORT).show()
@@ -210,11 +188,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 })
     }
 
-    private fun participation(eventType: String, phoneNumber: String, password: String) {
+    private fun participation(eventType: String) {
         val jsonObject = JSONObject()
         jsonObject.put("event_type", eventType)
-        jsonObject.put("phone_number", phoneNumber)
-        jsonObject.put("password", password)
 
         BaseApplication.getRetrofitMethod().postParticipation(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
                 .subscribeOn(Schedulers.io())
@@ -245,7 +221,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
                     override fun onComplete() {
                         progressOff()
-                        detailsOfParticipation(eventType, phoneNumber, password)
+                        detailsOfParticipation(eventType)
                     }
                 })
     }
