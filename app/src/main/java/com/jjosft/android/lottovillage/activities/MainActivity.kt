@@ -4,32 +4,31 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.jjosft.android.lottovillage.R
 import com.jjosft.android.lottovillage.base.BaseActivity
 import com.jjosft.android.lottovillage.base.BaseApplication
 import com.jjosft.android.lottovillage.model.Model
-import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import okhttp3.RequestBody
 import org.json.JSONObject
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+class MainActivity : BaseActivity() {
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mSharedPreferences: SharedPreferences by lazy {
         getSharedPreferences(BaseApplication.LOTTO_VILLAGE_PREFERENCES, Context.MODE_PRIVATE)
@@ -59,16 +58,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setContentView(R.layout.activity_main)
         setSupportActionBar(main_toolbar)
         main_bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        val toggle = ActionBarDrawerToggle(
-                this, main_drawer_layout, main_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        main_drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        main_nav_view.setNavigationItemSelectedListener(this)
-
-        detailsOfParticipation("1")
-        //detailsOfParticipation("2")
-        //detailsOfParticipation("3")
+        detailsOfParticipation("1", isContinued = true)
+        detailsOfParticipation("2", isContinued = true)
+        detailsOfParticipation("3", isContinued = false)
     }
 
     override fun onStop() {
@@ -77,11 +69,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onBackPressed() {
-        if (main_drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            main_drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
+        super.onBackPressed()
     }
 
     fun customOnClick(view: View) {
@@ -113,32 +101,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_camera -> {
-
-            }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
-            }
-        }
-
-        main_drawer_layout.closeDrawer(GravityCompat.START)
-        return true
-    }
-
     private fun logout() {
         progressOn(getString(R.string.send_to_request_logout))
 
@@ -154,25 +116,85 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         finish()
     }
 
-    private fun detailsOfParticipation(eventType: String, eventDate: String = "", eventNumber: String = "", isConfirmedStatus : Boolean = false) {
+    private fun setLottoNumberBackground(targetTextView: TextView, lottoNumber: Int) {
+        targetTextView.text = lottoNumber.toString()
+        when (lottoNumber) {
+            in 1..10 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_yellow)
+            in 11..20 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_blue)
+            in 21..30 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_red)
+            in 31..40 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_grey)
+            in 41..45 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_green)
+        }
+    }
+
+    private fun detailsOfParticipation(eventType: String, eventDate: String = "", eventNumber: String = "", isConfirmedStatus: Boolean = false, isContinued: Boolean = false) {
         BaseApplication.getRetrofitMethod().getDetailsOfParticipation(eventType, eventDate, eventNumber, isConfirmedStatus)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Model.ResultResponse> {
                     override fun onSubscribe(d: Disposable) {
                         mCompositeDisposable.add(d)
-                        progressOn(getString(R.string.request_detail_of_participation))
+                        progressOn("$eventType 회차 ${getString(R.string.request_detail_of_participation)}")
                     }
 
                     override fun onNext(t: Model.ResultResponse) {
                         if (t.isSuccess) {
-                            Toast.makeText(applicationContext, "로또참여 내역 불러오기 성공", Toast.LENGTH_SHORT).show()
-
+                            val participationData: Model.DetailsOfParticipation = t.detailsOfParticipation[0]
+                            when (eventType) {
+                                "1" -> {
+                                    main_text_one_hour_help.visibility = View.INVISIBLE
+                                    main_linear_layout_one_hour.visibility = View.VISIBLE
+                                    setLottoNumberBackground(main_text_one_hour_1, participationData.winningNumber1)
+                                    setLottoNumberBackground(main_text_one_hour_2, participationData.winningNumber2)
+                                    setLottoNumberBackground(main_text_one_hour_3, participationData.winningNumber3)
+                                    setLottoNumberBackground(main_text_one_hour_4, participationData.winningNumber4)
+                                    setLottoNumberBackground(main_text_one_hour_5, participationData.winningNumber5)
+                                    setLottoNumberBackground(main_text_one_hour_6, participationData.winningNumber6)
+                                    main_text_one_hour_participating_time.text = participationData.participatingTime
+                                }
+                                "2" -> {
+                                    main_text_six_hour_help.visibility = View.INVISIBLE
+                                    main_linear_layout_six_hour.visibility = View.VISIBLE
+                                    setLottoNumberBackground(main_text_six_hour_1, participationData.winningNumber1)
+                                    setLottoNumberBackground(main_text_six_hour_2, participationData.winningNumber2)
+                                    setLottoNumberBackground(main_text_six_hour_3, participationData.winningNumber3)
+                                    setLottoNumberBackground(main_text_six_hour_4, participationData.winningNumber4)
+                                    setLottoNumberBackground(main_text_six_hour_5, participationData.winningNumber5)
+                                    setLottoNumberBackground(main_text_six_hour_6, participationData.winningNumber6)
+                                    main_text_six_hour_participating_time.text = participationData.participatingTime
+                                }
+                                "3" -> {
+                                    main_text_twelve_hour_help.visibility = View.INVISIBLE
+                                    main_linear_layout_twelve_hour.visibility = View.VISIBLE
+                                    setLottoNumberBackground(main_text_twelve_hour_1, participationData.winningNumber1)
+                                    setLottoNumberBackground(main_text_twelve_hour_2, participationData.winningNumber2)
+                                    setLottoNumberBackground(main_text_twelve_hour_3, participationData.winningNumber3)
+                                    setLottoNumberBackground(main_text_twelve_hour_4, participationData.winningNumber4)
+                                    setLottoNumberBackground(main_text_twelve_hour_5, participationData.winningNumber5)
+                                    setLottoNumberBackground(main_text_twelve_hour_6, participationData.winningNumber6)
+                                    main_text_twelve_hour_participating_time.text = participationData.participatingTime
+                                }
+                            }
                         } else {
-                            if (t.errorMessage == getString(R.string.unmatched_token_value)) {
-                                Toast.makeText(applicationContext, getString(R.string.request_login), Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(applicationContext, t.errorMessage, Toast.LENGTH_SHORT).show()
+                            if (t.errorMessage == getString(R.string.unmatched_token_value)) Toast.makeText(applicationContext, getString(R.string.request_login), Toast.LENGTH_SHORT).show()
+                            else {
+                                when (eventType) {
+                                    "1" -> {
+                                        main_text_one_hour_help.visibility = View.VISIBLE
+                                        main_text_one_hour_help.text = t.errorMessage
+                                        main_linear_layout_one_hour.visibility = View.INVISIBLE
+                                    }
+                                    "2" -> {
+                                        main_text_six_hour_help.visibility = View.VISIBLE
+                                        main_text_six_hour_help.text = t.errorMessage
+                                        main_linear_layout_six_hour.visibility = View.INVISIBLE
+                                    }
+                                    "3" -> {
+                                        main_text_twelve_hour_help.visibility = View.VISIBLE
+                                        main_text_twelve_hour_help.text = t.errorMessage
+                                        main_linear_layout_twelve_hour.visibility = View.INVISIBLE
+                                    }
+                                }
                             }
                         }
                     }
@@ -183,7 +205,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     }
 
                     override fun onComplete() {
-                        progressOff()
+                        if (!isContinued) progressOff()
                     }
                 })
     }
@@ -198,13 +220,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 .subscribe(object : Observer<Model.DefaultResponse> {
                     override fun onSubscribe(d: Disposable) {
                         mCompositeDisposable.add(d)
-                        progressOn(getString(R.string.participating_lotto))
+                        progressOn("$eventType 회차 ${getString(R.string.participating_lotto)}")
                     }
 
                     override fun onNext(t: Model.DefaultResponse) {
                         if (t.isSuccess) {
                             Toast.makeText(applicationContext, "로또참여 성공", Toast.LENGTH_SHORT).show()
-                            //startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
                         } else {
                             if (t.errorMessage == getString(R.string.unmatched_token_value)) {
                                 Toast.makeText(applicationContext, getString(R.string.request_login), Toast.LENGTH_SHORT).show()

@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import java.util.concurrent.TimeUnit
 
 
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit
 open class BaseApplication : Application() {
     companion object {
         private lateinit var baseApplication: BaseApplication
-        private lateinit var progressDialog: AppCompatDialog
+        private var progressDialog: AppCompatDialog? = null
         private var retrofit: Retrofit? = null
         val MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8")
         const val LOTTO_VILLAGE_PREFERENCES = "LOTTO_VILLAGE_PREFERENCES"
@@ -47,6 +48,9 @@ open class BaseApplication : Application() {
         super.onCreate()
         baseApplication = this
         Stetho.initializeWithDefaults(this)
+        CalligraphyConfig.initDefault(CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/NanumGothic.otf")
+                .build())
     }
 
     private fun getClient(): Retrofit {
@@ -75,25 +79,30 @@ open class BaseApplication : Application() {
             return
         }
 
-        progressDialog = AppCompatDialog(activity)
-        progressDialog.setCancelable(false)
-        progressDialog.window.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
-        progressDialog.setContentView(R.layout.progress_loading)
-        progressDialog.text_progress.text = message
-        progressDialog.show()
+        if (progressDialog == null) {
+            progressDialog = AppCompatDialog(activity)
+            progressDialog!!.setCancelable(false)
+            progressDialog!!.window.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+            progressDialog!!.setContentView(R.layout.progress_loading)
+            progressDialog!!.text_progress.text = message
+            progressDialog!!.show()
+        } else {
+            progressSet(message)
+        }
     }
 
     fun progressSet(message: String) {
-        if (!progressDialog.isShowing) {
+        if (!progressDialog!!.isShowing) {
             return
         }
 
-        progressDialog.text_progress.text = message
+        progressDialog!!.text_progress.text = message
     }
 
     fun progressOff() {
-        if (progressDialog.isShowing) {
-            progressDialog.dismiss()
+        if (progressDialog!!.isShowing) {
+            progressDialog!!.dismiss()
+            progressDialog = null
         }
     }
 }

@@ -2,10 +2,13 @@
 <resources>
     <dimen name="default_layout_margin">10dp</dimen>
     <dimen name="lottie_animation_size">200dp</dimen>
-    <dimen name="margin_64">64dp</dimen>
-    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_1">1dp</dimen>
     <dimen name="margin_5">5dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_50">50dp</dimen>
+    <dimen name="margin_64">64dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

@@ -1,6 +1,7 @@
 package com.jjosft.android.lottovillage.base
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
 import com.jjosft.android.lottovillage.R
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 
 /**
@@ -16,6 +18,10 @@ import com.jjosft.android.lottovillage.R
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
+    }
 
     fun progressOn(message: String) {
         BaseApplication.getInstance().progressOn(this, message)

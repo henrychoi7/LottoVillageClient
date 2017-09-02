@@ -55,7 +55,10 @@ dependencies {
     //https://github.com/yarolegovich/LovelyDialog
     implementation 'com.yarolegovich:lovely-dialog:1.0.7'
 
+    //https://github.com/chrisjenx/Calligraphy
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.0'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.0'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
