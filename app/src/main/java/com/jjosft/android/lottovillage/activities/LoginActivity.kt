@@ -56,29 +56,27 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun validateLogin() {
-        val tokensStringSet: HashSet<String> = mSharedPreferences.getStringSet(BaseApplication.X_ACCESS_TOKEN, HashSet()) as HashSet<String>
+        //val tokensStringSet: HashSet<String> = mSharedPreferences.getStringSet(BaseApplication.X_ACCESS_TOKEN, HashSet()) as HashSet<String>
         val jsonObject = JSONObject()
-        if (tokensStringSet.size == 0 || !mIsCheckedAutoLogin) {
-            val phoneNumberString = login_edit_phone_number.text.toString()
-            val passwordString = login_edit_password.text.toString()
+        val phoneNumberString = login_edit_phone_number.text.toString()
+        val passwordString = login_edit_password.text.toString()
 
-            if (phoneNumberString.isEmpty().or(!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}\$", phoneNumberString))) {
-                login_edit_phone_number.requestFocus()
-                login_edit_phone_number.error = getString(R.string.unmatched_phone_number)
-                return
-            }
-
-            if (passwordString.isEmpty().or(passwordString.length !in 6..10)) {
-                login_edit_password.requestFocus()
-                login_edit_password.error = "6" + getString(R.string.deny_value_length)
-                return
-            }
-
-            jsonObject.put("phone_number", phoneNumberString)
-            jsonObject.put("password", passwordString)
+        /*if (phoneNumberString.isEmpty().or(!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}\$", phoneNumberString))) {
+            login_edit_phone_number.requestFocus()
+            login_edit_phone_number.error = getString(R.string.unmatched_phone_number)
+            return
         }
 
-        BaseApplication.getRetrofitMethod().postLogin(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
+        if (passwordString.isEmpty().or(passwordString.length !in 6..10)) {
+            login_edit_password.requestFocus()
+            login_edit_password.error = "6" + getString(R.string.deny_value_length)
+            return
+        }*/
+
+        jsonObject.put("phone_number", phoneNumberString)
+        jsonObject.put("password", passwordString)
+
+        BaseApplication.getInstance().getRetrofitMethod().postLogin(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Model.DefaultResponse> {

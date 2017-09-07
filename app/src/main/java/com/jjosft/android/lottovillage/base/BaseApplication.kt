@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatDialog
+import android.widget.TextView
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.jjosft.android.lottovillage.R
@@ -31,16 +32,10 @@ open class BaseApplication : Application() {
         const val CERTIFIED_NUMBER = "LOTTO_VILLAGE_CERTIFICATED_NUMBER"
         const val X_ACCESS_TOKEN = "JJSOFT_LOTTO_VILLAGE_TOKEN"
         const val AUTO_LOGIN = "JJSOFT_LOTTO_VILLAGE_AUTO_LOGIN"
-        const val PHONE_NUMBER = "JJSOFT_LOTTO_VILLAGE_PHONE_NUMBER"
-        const val PASSWORD = "JJSOFT_LOTTO_VILLAGE_PASSWORD"
 
 
         fun getInstance(): BaseApplication {
             return baseApplication
-        }
-
-        fun getRetrofitMethod() : RetrofitInterface {
-            return BaseApplication.getInstance().getClient().create(RetrofitInterface::class.java)
         }
     }
 
@@ -51,6 +46,10 @@ open class BaseApplication : Application() {
         CalligraphyConfig.initDefault(CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/NanumGothic.otf")
                 .build())
+    }
+
+    fun getRetrofitMethod() : RetrofitInterface {
+        return BaseApplication.getInstance().getClient().create(RetrofitInterface::class.java)
     }
 
     private fun getClient(): Retrofit {
@@ -102,6 +101,17 @@ open class BaseApplication : Application() {
         if (progressDialog!!.isShowing) {
             progressDialog!!.dismiss()
             progressDialog = null
+        }
+    }
+
+    fun setLottoNumberBackground(targetTextView: TextView, lottoNumber: Int) {
+        targetTextView.text = lottoNumber.toString()
+        when (lottoNumber) {
+            in 1..10 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_yellow)
+            in 11..20 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_blue)
+            in 21..30 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_red)
+            in 31..40 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_grey)
+            in 41..45 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_green)
         }
     }
 }

@@ -3,23 +3,30 @@
     <string name="login">로그인</string>
     <string name="logout">로그아웃</string>
     <string name="register">회원가입</string>
+    <string name="my_info">내정보</string>
+    <string name="point_usage_history">포인트 이용내역</string>
+    <string name="lotto_participation_history">로또 참여 현황</string>
+    <string name="product_purchase_details">상품 구매내역</string>
 
     <!-- Common Strings -->
     <string name="loading">Loading…</string>
     <string name="okay">확인</string>
     <string name="cancel">취소</string>
     <string name="add">더하기</string>
+    <string name="retrieve">조회</string>
     <string name="explain_permission_sms">문자전송을 위해서 권한을 허락하셔야합니다.</string>
     <string name="unmatched_phone_number">전화번호를 확인해주세요.</string>
     <string name="unmatched_token_value">토큰이 만료되었습니다.</string>
     <string name="request_login">로그인 인증이 만료되었습니다.\n다시 로그인해주세요.</string>
+    <string name="default_history_yyyyMM">YYYY년 MM월</string>
+    <string name="default_history_yyyyMMdd">YYYY년 MM월 DD일</string>
 
     <!-- Main Strings -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_home">Home</string>
     <string name="title_lotto">Lotto</string>
-    <string name="title_info">Info</string>
+    <string name="title_store">Store</string>
     <string name="action_settings">Settings</string>
     <string name="one_hour_lotto_number">한시간 단위 로또빌리지 번호</string>
     <string name="six_hour_lotto_number">여섯시간 단위 로또빌리지 번호</string>
@@ -28,7 +35,24 @@
     <string name="participate_lotto_village">응모하기</string>
     <string name="empty_participation_lotto_village">아직 로또에 참여하지 않았습니다.</string>
     <string name="participating_lotto">로또에 참여 중 입니다.</string>
-    <string name="request_detail_of_participation">로또 번호를 불러오는 중 입니다.</string>
+    <string name="request_detail_of_participation">로또빌리지 번호를 불러오는 중 입니다.</string>
+
+    <!-- Lotto Strings -->
+    <string name="request_lotto_rounds">로또 회차 자료를 불러오는 중 입니다.</string>
+    <string name="request_detail_of_lotto">실제 로또 번호를 불러오는 중 입니다.</string>
+    <string name="real_lotto_winning_numbers">실제 로또 당첨번호</string>
+    <string name="real_lotto_result">회 당첨결과</string>
+    <string name="default_winning_date">(YYYY년 MM월 DD일 추첨)</string>
+    <string name="winning_numbers">당첨번호</string>
+    <string name="bonus_number">보너스</string>
+    <string name="first_prize">1등</string>
+    <string name="second_prize">2등</string>
+    <string name="third_prize">3등</string>
+    <string name="fourth_prize">4등</string>
+    <string name="fifth_prize">5등</string>
+    <string name="total_prize">등위별 총 당첨금액</string>
+    <string name="total_number">당첨게임 수</string>
+    <string name="per_prize">1게임당 당첨금액</string>
 
     <!-- SMS Content -->
     <string name="message_front">(LottoVillage) 인증번호 [</string>
@@ -63,5 +87,14 @@
     <string name="empty_value">값을 입력해주세요.</string>
     <string name="deny_value_length">~10자리를 입력해주세요.</string>
     <string name="unmatched_password">비밀번호가 일치하지 않습니다.</string>
+
+    <!-- Information Strings -->
+    <string name="update">수정하기</string>
+    <string name="delete">탈퇴하기</string>
+    <string name="new_password">새로운 비밀번호 (6~10자리)</string>
+
+    <!-- PointHistory Strings -->
+
+    <!-- ParticipationHistory Strings -->
 
 </resources>

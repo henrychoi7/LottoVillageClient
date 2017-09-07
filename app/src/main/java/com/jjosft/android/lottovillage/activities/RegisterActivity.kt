@@ -152,7 +152,7 @@ class RegisterActivity : BaseActivity() {
         jsonObject.put("password_confirm", register_edit_password_confirm.text.toString())
         jsonObject.put("phone_number", register_edit_phone_number.text.toString())
 
-        BaseApplication.getRetrofitMethod().postRegister(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
+        BaseApplication.getInstance().getRetrofitMethod().postRegister(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Model.DefaultResponse> {

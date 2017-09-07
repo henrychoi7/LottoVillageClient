@@ -69,12 +69,12 @@ class ParticipationAdapter(private val mActivity: Activity, private val mEventTy
             holder.mainTextViewHelp.visibility = View.INVISIBLE
             holder.mainLinearLayoutParticipation.visibility = View.VISIBLE
             holder.mainButtonParticipation.isEnabled = false
-            setLottoNumberBackground(holder.mainTextViewParticipation1, mParticipationData.winningNumber1)
-            setLottoNumberBackground(holder.mainTextViewParticipation2, mParticipationData.winningNumber2)
-            setLottoNumberBackground(holder.mainTextViewParticipation3, mParticipationData.winningNumber3)
-            setLottoNumberBackground(holder.mainTextViewParticipation4, mParticipationData.winningNumber4)
-            setLottoNumberBackground(holder.mainTextViewParticipation5, mParticipationData.winningNumber5)
-            setLottoNumberBackground(holder.mainTextViewParticipation6, mParticipationData.winningNumber6)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation1, mParticipationData.winningNumber1)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation2, mParticipationData.winningNumber2)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation3, mParticipationData.winningNumber3)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation4, mParticipationData.winningNumber4)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation5, mParticipationData.winningNumber5)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation6, mParticipationData.winningNumber6)
         }
         holder.mainTextViewParticipatingTime.text = mParticipationData.participatingTime
     }
@@ -83,34 +83,23 @@ class ParticipationAdapter(private val mActivity: Activity, private val mEventTy
         return 1
     }
 
-    private fun setLottoNumberBackground(targetTextView: TextView, lottoNumber: Int) {
-        targetTextView.text = lottoNumber.toString()
-        when (lottoNumber) {
-            in 1..10 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_yellow)
-            in 11..20 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_blue)
-            in 21..30 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_red)
-            in 31..40 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_grey)
-            in 41..45 -> targetTextView.setBackgroundResource(R.drawable.attr_lotto_number_background_green)
-        }
-    }
-
     private fun detailsOfParticipation(eventType: String, eventDate: String = "", eventNumber: String = "", isConfirmedStatus: Boolean = false, isContinued: Boolean = false) {
-        BaseApplication.getRetrofitMethod().getDetailsOfParticipation(eventType, eventDate, eventNumber, isConfirmedStatus)
+        BaseApplication.getInstance().getRetrofitMethod().getDetailsOfParticipation(eventType, eventDate, eventNumber, isConfirmedStatus)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<Model.ResultResponse> {
+                .subscribe(object : Observer<Model.ParticipationResponse> {
                     override fun onSubscribe(d: Disposable) {
                         mCompositeDisposable.add(d)
                         BaseApplication.getInstance().progressOn(mActivity, "$eventType 회차 ${mActivity.getString(R.string.request_detail_of_participation)}")
                     }
 
-                    override fun onNext(t: Model.ResultResponse) {
+                    override fun onNext(t: Model.ParticipationResponse) {
                         if (t.isSuccess) {
                             mParticipationData = t.detailsOfParticipation[0]
                         } else {
                             if (t.errorMessage == mActivity.getString(R.string.unmatched_token_value)) Toast.makeText(mActivity, mActivity.getString(R.string.request_login), Toast.LENGTH_SHORT).show()
                             else {
-                                mParticipationData = Model.DetailsOfParticipation(1, 2, 3,
+                                mParticipationData = Model.DetailsOfParticipation("", 1, 2, 3,
                                         4, 5, 6, "")
                             }
                         }
@@ -134,7 +123,7 @@ class ParticipationAdapter(private val mActivity: Activity, private val mEventTy
         val jsonObject = JSONObject()
         jsonObject.put("event_type", eventType)
 
-        BaseApplication.getRetrofitMethod().postParticipation(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
+        BaseApplication.getInstance().getRetrofitMethod().postParticipation(RequestBody.create(BaseApplication.MEDIA_TYPE_JSON, jsonObject.toString()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Model.DefaultResponse> {

@@ -43,6 +43,18 @@
             android:name=".activities.MainActivity"
             android:label=""
             android:theme="@style/AppTheme.NoTitleBar" />
+        <activity
+            android:name=".activities.InformationActivity"
+            android:theme="@style/AppTheme.NoTitleBar" />
+        <activity
+            android:name=".activities.PointHistoryActivity"
+            android:theme="@style/AppTheme.NoTitleBar" />
+        <activity
+            android:name=".activities.ParticipationHistoryActivity"
+            android:theme="@style/AppTheme.NoTitleBar" />
+        <activity
+            android:name=".activities.PurchaseHistoryActivity"
+            android:theme="@style/AppTheme.NoTitleBar" />
     </application>
 
 </manifest>

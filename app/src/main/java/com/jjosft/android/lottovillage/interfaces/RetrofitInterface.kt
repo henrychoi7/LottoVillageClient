@@ -20,14 +20,17 @@ interface RetrofitInterface {
     @POST("register")
     fun postRegister(@Body params: RequestBody): Observable<Model.DefaultResponse>
 
+    @GET("lotto_rounds")
+    fun getLottoRounds(): Observable<Model.SingleStringArrayListResponse>
+
     @GET("details_of_lotto")
-    fun getDetailsOfLotto(@Query("rounds") rounds : String): Observable<Model.DefaultResponse>
+    fun getDetailsOfLotto(@Query("rounds") rounds : String): Observable<Model.LottoResponse>
 
     @GET("details_of_participation")
     fun getDetailsOfParticipation(@Query("event_type") eventType : String,
                                   @Query("event_date") eventDate : String,
                                   @Query("event_number") eventNumber : String,
-                                  @Query("confirm_status") isConfirmStatus : Boolean): Observable<Model.ResultResponse>
+                                  @Query("confirm_status") isConfirmStatus : Boolean): Observable<Model.ParticipationResponse>
 
     @POST("participation")
     fun postParticipation(@Body params: RequestBody): Observable<Model.DefaultResponse>
