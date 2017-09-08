@@ -21,7 +21,7 @@ interface RetrofitInterface {
     fun postRegister(@Body params: RequestBody): Observable<Model.DefaultResponse>
 
     @GET("my_point")
-    fun getMyPont(): Observable<Model.SingleIntResponse>
+    fun getMyPoint(): Observable<Model.SingleIntResponse>
 
     @GET("lotto_rounds")
     fun getLottoRounds(): Observable<Model.SingleIntResponse>
@@ -36,7 +36,7 @@ interface RetrofitInterface {
                                   @Query("confirm_status") isConfirmStatus : Boolean): Observable<Model.ParticipationResponse>
 
     @GET("details_of_all_participation")
-    fun getDetailsOfAllParticipation(): Observable<Model.ParticipationResponse>
+    fun getDetailsOfAllParticipation(@Query("confirm_status") isConfirmStatus : Boolean): Observable<Model.ParticipationResponse>
 
     @POST("participation")
     fun postParticipation(@Body params: RequestBody): Observable<Model.DefaultResponse>

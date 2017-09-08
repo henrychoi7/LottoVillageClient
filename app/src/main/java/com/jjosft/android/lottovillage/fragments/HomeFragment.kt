@@ -14,6 +14,7 @@ import com.jjosft.android.lottovillage.adapters.ParticipationAdapter
 import com.jjosft.android.lottovillage.adapters.WinningInfoAdapter
 import com.jjosft.android.lottovillage.base.BaseApplication
 import com.jjosft.android.lottovillage.model.Model
+import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -46,7 +47,7 @@ class HomeFragment : Fragment() {
         view.home_spinner_day.adapter = dayAdapter
         view.home_spinner_day.setSelection(0)
 
-        retrieveMyPoint(view)
+        retrieveWinningInfo(view)
 
         return view
     }
@@ -56,8 +57,8 @@ class HomeFragment : Fragment() {
         super.onStop()
     }
 
-    /*private fun retrieveWinningInfo(view: View) {
-        BaseApplication.getInstance().getRetrofitMethod().getDetailsOfAllParticipation()
+    private fun retrieveWinningInfo(view: View) {
+        BaseApplication.getInstance().getRetrofitMethod().getDetailsOfAllParticipation(isConfirmStatus = true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Model.ParticipationResponse> {
@@ -67,7 +68,60 @@ class HomeFragment : Fragment() {
                     }
 
                     override fun onNext(t: Model.ParticipationResponse) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        if (t.isSuccess) {
+                            val participationDataArrayList: ArrayList<Model.DetailsOfParticipation> = t.detailsOfParticipation
+                            when (participationDataArrayList.size) {
+                                0 -> {
+                                    participationDataArrayList.add(makeEmptyParticipationData("1"))
+                                    participationDataArrayList.add(makeEmptyParticipationData("2"))
+                                    participationDataArrayList.add(makeEmptyParticipationData("3"))
+                                }
+                                1 -> {
+                                    when (participationDataArrayList[0].eventType) {
+                                        "1" -> {
+                                            participationDataArrayList.add(1, makeEmptyParticipationData("2"))
+                                            participationDataArrayList.add(2, makeEmptyParticipationData("3"))
+                                        }
+                                        "2" -> {
+                                            participationDataArrayList.add(0, makeEmptyParticipationData("1"))
+                                            participationDataArrayList.add(2, makeEmptyParticipationData("3"))
+                                        }
+                                        "3" -> {
+                                            participationDataArrayList.add(0, makeEmptyParticipationData("1"))
+                                            participationDataArrayList.add(1, makeEmptyParticipationData("2"))
+                                        }
+                                    }
+                                }
+                                2 -> {
+                                    when (participationDataArrayList[0].eventType) {
+                                        "1" -> {
+                                            if (participationDataArrayList[1].eventType == "2") {
+                                                participationDataArrayList.add(2, makeEmptyParticipationData("3"))
+                                            } else {
+                                                participationDataArrayList.add(1, makeEmptyParticipationData("2"))
+                                            }
+                                        }
+                                        "2" -> {
+                                            participationDataArrayList.add(0, makeEmptyParticipationData("1"))
+                                        }
+                                    }
+                                }
+                            }
+                            val participationAdapter = ParticipationAdapter(activity, participationDataArrayList)
+                            view.home_recycler_view_participation_hour.layoutManager = LinearLayoutManager(activity)
+                            view.home_recycler_view_participation_hour.adapter = participationAdapter
+                        } else {
+                            if (t.errorMessage == getString(R.string.unmatched_token_value)) Toast.makeText(activity, getString(R.string.request_login), Toast.LENGTH_SHORT).show()
+                            else {
+                                val participationDataArrayList: ArrayList<Model.DetailsOfParticipation> = ArrayList()
+                                participationDataArrayList.add(makeEmptyParticipationData("1"))
+                                participationDataArrayList.add(makeEmptyParticipationData("2"))
+                                participationDataArrayList.add(makeEmptyParticipationData("3"))
+                                val participationAdapter = ParticipationAdapter(activity, participationDataArrayList)
+                                view.home_recycler_view_participation_hour.layoutManager = LinearLayoutManager(activity)
+                                view.home_recycler_view_participation_hour.adapter = participationAdapter
+                            }
+                        }
                     }
 
                     override fun onError(e: Throwable) {
@@ -77,13 +131,14 @@ class HomeFragment : Fragment() {
                     }
 
                     override fun onComplete() {
-                        retrieveMyPoint(view)
+                        BaseApplication.getInstance().progressOff()
+                        mCompositeDisposable.clear()
                     }
                 })
-    }*/
+    }
 
     private fun retrieveMyPoint(view: View) {
-        BaseApplication.getInstance().getRetrofitMethod().getMyPont()
+        BaseApplication.getInstance().getRetrofitMethod().getMyPoint()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Model.SingleIntResponse> {
@@ -113,7 +168,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun retrieveDetailsOfAllParticipation(view: View) {
-        BaseApplication.getInstance().getRetrofitMethod().getDetailsOfAllParticipation()
+        BaseApplication.getInstance().getRetrofitMethod().getDetailsOfAllParticipation(isConfirmStatus = false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Model.ParticipationResponse> {
