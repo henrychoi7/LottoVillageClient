@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/DefaultParentLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    style="@style/DefaultParentLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="@dimen/margin_20">
 
-        <!--<LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -26,7 +24,7 @@
                 android:id="@+id/lotto_button_retrieve"
                 style="@style/ParticipateButton"
                 android:text="@string/retrieve" />
-        </LinearLayout>-->
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -143,29 +141,9 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!--<android.support.v7.widget.RecyclerView
-            android:id="@+id/lotto_recycler_view_first_prize"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lotto_recycler_view_prize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lotto_recycler_view_second_prize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lotto_recycler_view_third_prize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lotto_recycler_view_fourth_prize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lotto_recycler_view_fifth_prize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />-->
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>

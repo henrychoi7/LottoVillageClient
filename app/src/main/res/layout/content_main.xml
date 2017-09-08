@@ -7,7 +7,7 @@
     tools:context=".activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <!--<android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/main_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -18,7 +18,14 @@
             android:name="com.jjosft.android.lottovillage.fragments.HomeFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>-->
+
+    <fragment
+        android:id="@+id/main_fragment"
+        android:name="com.jjosft.android.lottovillage.fragments.HomeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/main_bottom_navigation"

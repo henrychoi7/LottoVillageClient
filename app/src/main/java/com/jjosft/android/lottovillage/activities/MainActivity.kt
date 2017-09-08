@@ -22,7 +22,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+//class MainActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class MainActivity : BaseActivity() {
     private val mSharedPreferences: SharedPreferences by lazy {
         getSharedPreferences(BaseApplication.LOTTO_VILLAGE_PREFERENCES, Context.MODE_PRIVATE)
     }
@@ -54,7 +55,7 @@ class MainActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         fragmentTransaction.commit()
     }
 
-    override fun onRefresh() {
+    /*override fun onRefresh() {
         when (main_bottom_navigation.selectedItemId) {
             R.id.navigation_home -> {
                 main_text_message.setText(R.string.title_home)
@@ -70,7 +71,7 @@ class MainActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             }
         }
         main_swipe_refresh_layout.isRefreshing = false
-    }
+    }*/
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +79,7 @@ class MainActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         setContentView(R.layout.activity_main)
         setSupportActionBar(main_toolbar)
         main_bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        main_swipe_refresh_layout.setOnRefreshListener(this)
+        //main_swipe_refresh_layout.setOnRefreshListener(this)
     }
 
     override fun onBackPressed() {

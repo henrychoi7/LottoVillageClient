@@ -26,6 +26,5 @@ object Model {
                               @SerializedName("TOTAL_PRIZE_4") val totalPrize4: String, @SerializedName("TOTAL_NUMBER_4") val totalNumber4: String, @SerializedName("PER_PRIZE_4") val perPrize4: String,
                               @SerializedName("TOTAL_PRIZE_5") val totalPrize5: String, @SerializedName("TOTAL_NUMBER_5") val totalNumber5: String, @SerializedName("PER_PRIZE_5") val perPrize5: String)
 
-    data class SingleStringArrayListResponse(@SerializedName("isSuccess") val isSuccess: Boolean, @SerializedName("errorMessage") val errorMessage: String, @SerializedName("results") val results: SingleStringArrayList)
-    data class SingleStringArrayList(@SerializedName("SINGLE_STRING") val singleStringArrayList: ArrayList<String>)
+    data class SingleIntResponse(@SerializedName("isSuccess") val isSuccess: Boolean, @SerializedName("errorMessage") val errorMessage: String, @SerializedName("results") val results: Int)
 }

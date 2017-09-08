@@ -6,7 +6,7 @@
     <string name="my_info">내정보</string>
     <string name="point_usage_history">포인트 이용내역</string>
     <string name="lotto_participation_history">로또 참여 현황</string>
-    <string name="product_purchase_details">상품 구매내역</string>
+    <string name="product_purchase_history">상품 구매내역</string>
 
     <!-- Common Strings -->
     <string name="loading">Loading…</string>
@@ -28,6 +28,8 @@
     <string name="title_lotto">Lotto</string>
     <string name="title_store">Store</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Home Strings -->
     <string name="one_hour_lotto_number">한시간 단위 로또빌리지 번호</string>
     <string name="six_hour_lotto_number">여섯시간 단위 로또빌리지 번호</string>
     <string name="twelve_hour_lotto_number">열두시간 단위 로또빌리지 번호</string>
@@ -36,6 +38,8 @@
     <string name="empty_participation_lotto_village">아직 로또에 참여하지 않았습니다.</string>
     <string name="participating_lotto">로또에 참여 중 입니다.</string>
     <string name="request_detail_of_participation">로또빌리지 번호를 불러오는 중 입니다.</string>
+    <string name="my_point">나의 포인트 : </string>
+    <string name="request_my_point">나의 포인트를 불러오는 중 입니다.</string>
 
     <!-- Lotto Strings -->
     <string name="request_lotto_rounds">로또 회차 자료를 불러오는 중 입니다.</string>
@@ -92,9 +96,5 @@
     <string name="update">수정하기</string>
     <string name="delete">탈퇴하기</string>
     <string name="new_password">새로운 비밀번호 (6~10자리)</string>
-
-    <!-- PointHistory Strings -->
-
-    <!-- ParticipationHistory Strings -->
 
 </resources>

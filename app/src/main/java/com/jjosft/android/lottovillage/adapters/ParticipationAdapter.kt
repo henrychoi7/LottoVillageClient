@@ -11,7 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.jjosft.android.lottovillage.R
 import com.jjosft.android.lottovillage.base.BaseApplication
-import com.jjosft.android.lottovillage.fragments.HomeFragment
 import com.jjosft.android.lottovillage.model.Model
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,21 +24,22 @@ import org.json.JSONObject
 /**
  * Created by JJSOFT-DESKTOP on 2017-09-04.
  */
-class ParticipationAdapter(private val mActivity: Activity, private val mEventType: String, private var mParticipationData: Model.DetailsOfParticipation) : RecyclerView.Adapter<ParticipationAdapter.ViewHolder>() {
+class ParticipationAdapter(private val mActivity: Activity, private var mParticipationDataArrayList: ArrayList<Model.DetailsOfParticipation>)
+    : RecyclerView.Adapter<ParticipationAdapter.ViewHolder>() {
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val mainTextViewTitle: TextView = view.findViewById(R.id.main_text_participation_title)
-        val mainTextViewHelp: TextView = view.findViewById(R.id.main_text_participation_help)
-        val mainLinearLayoutParticipation: LinearLayout = view.findViewById(R.id.main_linear_layout_participation)
-        val mainTextViewParticipation1: TextView = view.findViewById(R.id.main_text_participation_1)
-        val mainTextViewParticipation2: TextView = view.findViewById(R.id.main_text_participation_2)
-        val mainTextViewParticipation3: TextView = view.findViewById(R.id.main_text_participation_3)
-        val mainTextViewParticipation4: TextView = view.findViewById(R.id.main_text_participation_4)
-        val mainTextViewParticipation5: TextView = view.findViewById(R.id.main_text_participation_5)
-        val mainTextViewParticipation6: TextView = view.findViewById(R.id.main_text_participation_6)
-        val mainTextViewParticipatingTime: TextView = view.findViewById(R.id.main_text_participating_time)
-        val mainButtonParticipation: Button = view.findViewById(R.id.main_button_participation_lotto)
+        val homeTextViewTitle: TextView = view.findViewById(R.id.home_text_participation_title)
+        val homeTextViewHelp: TextView = view.findViewById(R.id.home_text_participation_help)
+        val homeLinearLayoutParticipation: LinearLayout = view.findViewById(R.id.home_linear_layout_participation)
+        val homeTextViewParticipation1: TextView = view.findViewById(R.id.home_text_participation_1)
+        val homeTextViewParticipation2: TextView = view.findViewById(R.id.home_text_participation_2)
+        val homeTextViewParticipation3: TextView = view.findViewById(R.id.home_text_participation_3)
+        val homeTextViewParticipation4: TextView = view.findViewById(R.id.home_text_participation_4)
+        val homeTextViewParticipation5: TextView = view.findViewById(R.id.home_text_participation_5)
+        val homeTextViewParticipation6: TextView = view.findViewById(R.id.home_text_participation_6)
+        val homeTextViewParticipatingTime: TextView = view.findViewById(R.id.home_text_participating_time)
+        val homeButtonParticipation: Button = view.findViewById(R.id.home_button_participation_lotto)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParticipationAdapter.ViewHolder {
@@ -48,42 +48,41 @@ class ParticipationAdapter(private val mActivity: Activity, private val mEventTy
     }
 
     override fun onBindViewHolder(holder: ParticipationAdapter.ViewHolder, position: Int) {
-        when (mEventType) {
-            "1" -> {
-                holder.mainTextViewTitle.text = mActivity.getString(R.string.one_hour_lotto_number)
-                holder.mainButtonParticipation.setOnClickListener({ participation("1") })
+        val participationData: Model.DetailsOfParticipation = mParticipationDataArrayList[position]
+        when (position) {
+            0 -> {
+                holder.homeTextViewTitle.text = mActivity.getString(R.string.one_hour_lotto_number)
             }
-            "2" -> {
-                holder.mainTextViewTitle.text = mActivity.getString(R.string.six_hour_lotto_number)
-                holder.mainButtonParticipation.setOnClickListener({ participation("2") })
+            1 -> {
+                holder.homeTextViewTitle.text = mActivity.getString(R.string.six_hour_lotto_number)
             }
-            "3" -> {
-                holder.mainTextViewTitle.text = mActivity.getString(R.string.twelve_hour_lotto_number)
-                holder.mainButtonParticipation.setOnClickListener({ participation("3") })
+            2 -> {
+                holder.homeTextViewTitle.text = mActivity.getString(R.string.twelve_hour_lotto_number)
             }
         }
-        if (mParticipationData.participatingTime == "") {
-            holder.mainTextViewHelp.visibility = View.VISIBLE
-            holder.mainLinearLayoutParticipation.visibility = View.INVISIBLE
+        holder.homeButtonParticipation.setOnClickListener({ participation(participationData.eventType, position) })
+        if (participationData.participatingTime == "") {
+            holder.homeTextViewHelp.visibility = View.VISIBLE
+            holder.homeLinearLayoutParticipation.visibility = View.INVISIBLE
         } else {
-            holder.mainTextViewHelp.visibility = View.INVISIBLE
-            holder.mainLinearLayoutParticipation.visibility = View.VISIBLE
-            holder.mainButtonParticipation.isEnabled = false
-            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation1, mParticipationData.winningNumber1)
-            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation2, mParticipationData.winningNumber2)
-            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation3, mParticipationData.winningNumber3)
-            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation4, mParticipationData.winningNumber4)
-            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation5, mParticipationData.winningNumber5)
-            BaseApplication.getInstance().setLottoNumberBackground(holder.mainTextViewParticipation6, mParticipationData.winningNumber6)
+            holder.homeTextViewHelp.visibility = View.INVISIBLE
+            holder.homeLinearLayoutParticipation.visibility = View.VISIBLE
+            holder.homeButtonParticipation.isEnabled = false
+            BaseApplication.getInstance().setLottoNumberBackground(holder.homeTextViewParticipation1, participationData.winningNumber1)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.homeTextViewParticipation2, participationData.winningNumber2)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.homeTextViewParticipation3, participationData.winningNumber3)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.homeTextViewParticipation4, participationData.winningNumber4)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.homeTextViewParticipation5, participationData.winningNumber5)
+            BaseApplication.getInstance().setLottoNumberBackground(holder.homeTextViewParticipation6, participationData.winningNumber6)
         }
-        holder.mainTextViewParticipatingTime.text = mParticipationData.participatingTime
+        holder.homeTextViewParticipatingTime.text = participationData.participatingTime
     }
 
     override fun getItemCount(): Int {
-        return 1
+        return mParticipationDataArrayList.size
     }
 
-    private fun detailsOfParticipation(eventType: String, eventDate: String = "", eventNumber: String = "", isConfirmedStatus: Boolean = false, isContinued: Boolean = false) {
+    private fun detailsOfParticipation(eventType: String, eventDate: String = "", eventNumber: String = "", isConfirmedStatus: Boolean = false, isContinued: Boolean = false, index: Int) {
         BaseApplication.getInstance().getRetrofitMethod().getDetailsOfParticipation(eventType, eventDate, eventNumber, isConfirmedStatus)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -95,15 +94,17 @@ class ParticipationAdapter(private val mActivity: Activity, private val mEventTy
 
                     override fun onNext(t: Model.ParticipationResponse) {
                         if (t.isSuccess) {
-                            mParticipationData = t.detailsOfParticipation[0]
+                            mParticipationDataArrayList[index] = t.detailsOfParticipation[0]
                         } else {
                             if (t.errorMessage == mActivity.getString(R.string.unmatched_token_value)) Toast.makeText(mActivity, mActivity.getString(R.string.request_login), Toast.LENGTH_SHORT).show()
                             else {
-                                mParticipationData = Model.DetailsOfParticipation("", 1, 2, 3,
-                                        4, 5, 6, "")
+                                mParticipationDataArrayList[index] = Model.DetailsOfParticipation("", 1,
+                                        12, 23, 34, 45,
+                                        16, "")
                             }
                         }
-                        notifyItemChanged(0)
+
+                        notifyItemChanged(index)
                     }
 
                     override fun onError(e: Throwable) {
@@ -119,7 +120,7 @@ class ParticipationAdapter(private val mActivity: Activity, private val mEventTy
                 })
     }
 
-    private fun participation(eventType: String) {
+    private fun participation(eventType: String, index: Int) {
         val jsonObject = JSONObject()
         jsonObject.put("event_type", eventType)
 
@@ -152,7 +153,7 @@ class ParticipationAdapter(private val mActivity: Activity, private val mEventTy
 
                     override fun onComplete() {
                         //BaseApplication.getInstance().progressOff()
-                        detailsOfParticipation(eventType, isContinued = false)
+                        detailsOfParticipation(eventType, isContinued = false, index = index)
                     }
                 })
     }

@@ -28,7 +28,7 @@ class LottoFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view: View = inflater.inflate(R.layout.fragment_lotto, container, false)
-        //view.lotto_button_retrieve.setOnClickListener({retrieveRealLotto(view, view.lotto_spinner_rounds.selectedItem.toString())})
+        view.lotto_button_retrieve.setOnClickListener({ retrieveRealLotto(view, view.lotto_spinner_rounds.selectedItem.toString()) })
         prepareLottoRounds(view)
         return view
     }
@@ -42,17 +42,20 @@ class LottoFragment : Fragment() {
         BaseApplication.getInstance().getRetrofitMethod().getLottoRounds()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<Model.SingleStringArrayListResponse> {
+                .subscribe(object : Observer<Model.SingleIntResponse> {
                     override fun onSubscribe(d: Disposable) {
                         mCompositeDisposable.add(d)
                         BaseApplication.getInstance().progressOn(activity, getString(R.string.request_lotto_rounds))
                     }
 
-                    override fun onNext(t: Model.SingleStringArrayListResponse) {
+                    override fun onNext(t: Model.SingleIntResponse) {
                         if (t.isSuccess) {
-                            val lottoRoundsAdapter: SpinnerAdapter = ArrayAdapter(activity, R.layout.spinner_lotto, t.results.singleStringArrayList)
-                            //view.lotto_spinner_rounds.adapter = lottoRoundsAdapter
-                            //view.lotto_spinner_rounds.setSelection(0)
+                            val maxRound: Int = t.results
+                            val roundArrayList: ArrayList<String> = ArrayList()
+                            (maxRound downTo 1).mapTo(roundArrayList) { it.toString() }
+                            val lottoRoundsAdapter: SpinnerAdapter = ArrayAdapter(activity, R.layout.spinner_lotto, roundArrayList)
+                            view.lotto_spinner_rounds.adapter = lottoRoundsAdapter
+                            view.lotto_spinner_rounds.setSelection(0)
                         }
                     }
 
@@ -63,8 +66,7 @@ class LottoFragment : Fragment() {
                     }
 
                     override fun onComplete() {
-                        //retrieveRealLotto(view, view.lotto_spinner_rounds.selectedItem.toString())
-                        retrieveRealLotto(view, "770")
+                        retrieveRealLotto(view, view.lotto_spinner_rounds.selectedItem.toString())
                     }
                 })
     }
@@ -82,7 +84,7 @@ class LottoFragment : Fragment() {
                     override fun onNext(t: Model.LottoResponse) {
                         if (t.isSuccess) {
                             val lottoData: Model.DetailsOfLotto = t.detailsOfLotto[0]
-                            /*view.lotto_text_winning_date.text = lottoData.winningDate
+                            view.lotto_text_winning_date.text = lottoData.winningDate
                             view.lotto_text_real_lotto_rounds.text = lottoRounds
                             BaseApplication.getInstance().setLottoNumberBackground(view.lotto_text_real_lotto_1, lottoData.winningNumber1)
                             BaseApplication.getInstance().setLottoNumberBackground(view.lotto_text_real_lotto_2, lottoData.winningNumber2)
@@ -90,32 +92,10 @@ class LottoFragment : Fragment() {
                             BaseApplication.getInstance().setLottoNumberBackground(view.lotto_text_real_lotto_4, lottoData.winningNumber4)
                             BaseApplication.getInstance().setLottoNumberBackground(view.lotto_text_real_lotto_5, lottoData.winningNumber5)
                             BaseApplication.getInstance().setLottoNumberBackground(view.lotto_text_real_lotto_6, lottoData.winningNumber6)
-                            BaseApplication.getInstance().setLottoNumberBackground(view.lotto_text_real_lotto_bonus, lottoData.bonusNumber)*/
+                            BaseApplication.getInstance().setLottoNumberBackground(view.lotto_text_real_lotto_bonus, lottoData.bonusNumber)
 
-                            /*view.lotto_recycler_view_first_prize.layoutManager = LinearLayoutManager(activity)
-                            view.lotto_recycler_view_first_prize.adapter =
-                                    LottoAdapter(getString(R.string.first_prize), lottoData.totalPrize1,
-                                            lottoData.totalNumber1, lottoData.perPrize1)
-
-                            view.lotto_recycler_view_second_prize.layoutManager = LinearLayoutManager(activity)
-                            view.lotto_recycler_view_second_prize.adapter =
-                                    LottoAdapter(getString(R.string.second_prize), lottoData.totalPrize2,
-                                            lottoData.totalNumber2, lottoData.perPrize2)
-
-                            view.lotto_recycler_view_third_prize.layoutManager = LinearLayoutManager(activity)
-                            view.lotto_recycler_view_third_prize.adapter =
-                                    LottoAdapter(getString(R.string.third_prize), lottoData.totalPrize3,
-                                            lottoData.totalNumber3, lottoData.perPrize3)
-
-                            view.lotto_recycler_view_fourth_prize.layoutManager = LinearLayoutManager(activity)
-                            view.lotto_recycler_view_fourth_prize.adapter =
-                                    LottoAdapter(getString(R.string.fourth_prize), lottoData.totalPrize4,
-                                            lottoData.totalNumber4, lottoData.perPrize4)
-
-                            view.lotto_recycler_view_fifth_prize.layoutManager = LinearLayoutManager(activity)
-                            view.lotto_recycler_view_fifth_prize.adapter =
-                                    LottoAdapter(getString(R.string.fifth_prize), lottoData.totalPrize5,
-                                            lottoData.totalNumber5, lottoData.perPrize5)*/
+                            view.lotto_recycler_view_prize.layoutManager = LinearLayoutManager(activity)
+                            view.lotto_recycler_view_prize.adapter = LottoAdapter(lottoData)
                         }
                     }
 
