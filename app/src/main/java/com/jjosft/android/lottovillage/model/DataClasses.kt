@@ -26,5 +26,10 @@ object Model {
                               @SerializedName("TOTAL_PRIZE_4") val totalPrize4: String, @SerializedName("TOTAL_NUMBER_4") val totalNumber4: String, @SerializedName("PER_PRIZE_4") val perPrize4: String,
                               @SerializedName("TOTAL_PRIZE_5") val totalPrize5: String, @SerializedName("TOTAL_NUMBER_5") val totalNumber5: String, @SerializedName("PER_PRIZE_5") val perPrize5: String)
 
+    data class WinningInfoResponse(@SerializedName("isSuccess") val isSuccess: Boolean, @SerializedName("errorMessage") val errorMessage: String, @SerializedName("results") val detailsOfWinningInfo: ArrayList<DetailsOfWinningInfo>)
+    data class DetailsOfWinningInfo(@SerializedName("EVENT_TYPE") val eventType: String, @SerializedName("EVENT_DATE_HOUR") val eventDateHour: String, @SerializedName("WINNING_NUMBER_1") val winningNumber1: Int,
+                                    @SerializedName("WINNING_NUMBER_2") val winningNumber2: Int, @SerializedName("WINNING_NUMBER_3") val winningNumber3: Int, @SerializedName("WINNING_NUMBER_4") val winningNumber4: Int,
+                                    @SerializedName("WINNING_NUMBER_5") val winningNumber5: Int, @SerializedName("WINNING_NUMBER_6") val winningNumber6: Int, @SerializedName("BONUS_NUMBER") val bonusNumber: Int)
+
     data class SingleIntResponse(@SerializedName("isSuccess") val isSuccess: Boolean, @SerializedName("errorMessage") val errorMessage: String, @SerializedName("results") val results: Int)
 }

@@ -36,6 +36,7 @@
     <string name="participating_time">참여 시간 : </string>
     <string name="participate_lotto_village">응모하기</string>
     <string name="empty_participation_lotto_village">아직 로또에 참여하지 않았습니다.</string>
+    <string name="empty_winning_lotto_village">당첨 번호가 투표되지 않았습니다.</string>
     <string name="participating_lotto">로또에 참여 중 입니다.</string>
     <string name="request_detail_of_participation">로또빌리지 번호를 불러오는 중 입니다.</string>
     <string name="my_point">나의 포인트 : </string>

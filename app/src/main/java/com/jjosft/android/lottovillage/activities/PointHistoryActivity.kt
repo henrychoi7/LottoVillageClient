@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.SpinnerAdapter
 import com.jjosft.android.lottovillage.R
 import com.jjosft.android.lottovillage.adapters.PointHistoryAdapter
 import com.jjosft.android.lottovillage.base.BaseActivity
@@ -21,11 +20,11 @@ class PointHistoryActivity : BaseActivity() {
         setSupportActionBar(point_history_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val yearAdapter: SpinnerAdapter = ArrayAdapter<String>(applicationContext, R.layout.spinner_lotto, resources.getStringArray(R.array.years))
+        val yearAdapter = ArrayAdapter<String>(applicationContext, R.layout.spinner_lotto, resources.getStringArray(R.array.years))
         point_history_spinner_year.adapter = yearAdapter
         point_history_spinner_year.setSelection(0)
 
-        val monthAdapter: SpinnerAdapter = ArrayAdapter<String>(applicationContext, R.layout.spinner_lotto, resources.getStringArray(R.array.months))
+        val monthAdapter = ArrayAdapter<String>(applicationContext, R.layout.spinner_lotto, resources.getStringArray(R.array.months))
         point_history_spinner_month.adapter = monthAdapter
         point_history_spinner_month.setSelection(0)
 

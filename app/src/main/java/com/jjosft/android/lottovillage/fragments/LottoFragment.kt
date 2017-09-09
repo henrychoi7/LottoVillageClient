@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.SpinnerAdapter
 import android.widget.Toast
 import com.jjosft.android.lottovillage.R
 import com.jjosft.android.lottovillage.adapters.LottoAdapter
@@ -53,7 +52,7 @@ class LottoFragment : Fragment() {
                             val maxRound: Int = t.results
                             val roundArrayList: ArrayList<String> = ArrayList()
                             (maxRound downTo 1).mapTo(roundArrayList) { it.toString() }
-                            val lottoRoundsAdapter: SpinnerAdapter = ArrayAdapter(activity, R.layout.spinner_lotto, roundArrayList)
+                            val lottoRoundsAdapter = ArrayAdapter(activity, R.layout.spinner_lotto, roundArrayList)
                             view.lotto_spinner_rounds.adapter = lottoRoundsAdapter
                             view.lotto_spinner_rounds.setSelection(0)
                         }

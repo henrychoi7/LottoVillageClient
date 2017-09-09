@@ -101,6 +101,7 @@ class ParticipationAdapter(private val mActivity: Activity, private var mPartici
                                 mParticipationDataArrayList[index] = Model.DetailsOfParticipation("", 1,
                                         12, 23, 34, 45,
                                         16, "")
+                                Toast.makeText(mActivity, t.errorMessage, Toast.LENGTH_SHORT).show()
                             }
                         }
 

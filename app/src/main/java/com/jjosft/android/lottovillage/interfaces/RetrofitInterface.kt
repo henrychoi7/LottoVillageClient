@@ -36,7 +36,15 @@ interface RetrofitInterface {
                                   @Query("confirm_status") isConfirmStatus : Boolean): Observable<Model.ParticipationResponse>
 
     @GET("details_of_all_participation")
-    fun getDetailsOfAllParticipation(@Query("confirm_status") isConfirmStatus : Boolean): Observable<Model.ParticipationResponse>
+    fun getDetailsOfAllParticipation(): Observable<Model.ParticipationResponse>
+
+    @GET("details_of_winning_info")
+    fun getDetailsOfWinningInfo(@Query("event_type") eventType : String,
+                                @Query("event_date") eventDate : String,
+                                @Query("event_number") eventNumber : String): Observable<Model.WinningInfoResponse>
+
+    @GET("details_of_all_winning_info")
+    fun getDetailsOfAllWinningInfo(): Observable<Model.WinningInfoResponse>
 
     @POST("participation")
     fun postParticipation(@Body params: RequestBody): Observable<Model.DefaultResponse>
