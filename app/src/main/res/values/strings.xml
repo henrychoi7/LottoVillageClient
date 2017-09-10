@@ -41,6 +41,7 @@
     <string name="request_detail_of_participation">로또빌리지 번호를 불러오는 중 입니다.</string>
     <string name="my_point">나의 포인트 : </string>
     <string name="request_my_point">나의 포인트를 불러오는 중 입니다.</string>
+    <string name="drawing_time">로또빌리지 응모 일자 : </string>
 
     <!-- Lotto Strings -->
     <string name="request_lotto_rounds">로또 회차 자료를 불러오는 중 입니다.</string>

@@ -142,13 +142,4 @@
             android:text="@string/login"
             android:textColor="@color/blackText" />
     </LinearLayout>
-    <Button
-        android:id="@+id/splash_button_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:background="@drawable/attr_button_init"
-        android:onClick="customOnClick"
-        android:text="메인으로"
-        android:textColor="@color/blackText" />
 </RelativeLayout>

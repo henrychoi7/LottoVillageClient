@@ -25,7 +25,6 @@ class SplashActivity : BaseActivity() {
         when (view.id) {
             R.id.splash_button_go_to_register -> startActivity(Intent(applicationContext, RegisterActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
             R.id.splash_button_go_to_login -> startActivity(Intent(applicationContext, LoginActivity::class.java))
-            R.id.splash_button_test -> startActivity(Intent(applicationContext, MainActivity::class.java))
         }
     }
 }
