@@ -20,6 +20,7 @@
     <string name="request_login">로그인 인증이 만료되었습니다.\n다시 로그인해주세요.</string>
     <string name="default_history_yyyyMM">YYYY년 MM월</string>
     <string name="default_history_yyyyMMdd">YYYY년 MM월 DD일</string>
+    <string name="product_image">상품이미지</string>
 
     <!-- Main Strings -->
     <string name="navigation_drawer_open">Open navigation drawer</string>

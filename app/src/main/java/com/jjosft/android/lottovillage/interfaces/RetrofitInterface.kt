@@ -23,6 +23,9 @@ interface RetrofitInterface {
     @GET("my_point")
     fun getMyPoint(): Observable<Model.SingleIntResponse>
 
+    @GET("details_of_point_history")
+    fun getDetailsOfPointHistory(@Query("saving_time") savingTime : String) : Observable<Model.PointHistoryResponse>
+
     @GET("lotto_rounds")
     fun getLottoRounds(): Observable<Model.SingleIntResponse>
 
@@ -34,6 +37,9 @@ interface RetrofitInterface {
                                   @Query("event_date") eventDate : String,
                                   @Query("event_number") eventNumber : String,
                                   @Query("confirm_status") isConfirmStatus : Boolean): Observable<Model.ParticipationResponse>
+
+    @GET("details_of_one_day_participation")
+    fun getDetailsOfOneDayParticipation(@Query("event_date") eventDate : String): Observable<Model.ParticipationHistoryResponse>
 
     @GET("details_of_all_participation")
     fun getDetailsOfAllParticipation(): Observable<Model.ParticipationResponse>

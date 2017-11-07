@@ -15,6 +15,15 @@ object Model {
                                       @SerializedName("WINNING_NUMBER_5") val winningNumber5: Int, @SerializedName("WINNING_NUMBER_6") val winningNumber6: Int,
                                       @SerializedName("PARTICIPATING_TIME") val participatingTime: String)
 
+    data class ParticipationHistoryResponse(@SerializedName("isSuccess") val isSuccess: Boolean, @SerializedName("errorMessage") val errorMessage: String, @SerializedName("results") val detailsOfParticipationHistory: ArrayList<DetailsOfParticipationHistory>)
+    data class DetailsOfParticipationHistory(@SerializedName("EVENT_TYPE") val eventType: String, @SerializedName("EVENT_DATE_HOUR") val eventDateHour: String, @SerializedName("WINNING_RATE") val winningRate: String,
+                                             @SerializedName("WINNING_NUMBER_1") val winningNumber1: Int, @SerializedName("WINNING_NUMBER_2") val winningNumber2: Int, @SerializedName("WINNING_NUMBER_3") val winningNumber3: Int,
+                                             @SerializedName("WINNING_NUMBER_4") val winningNumber4: Int, @SerializedName("WINNING_NUMBER_5") val winningNumber5: Int, @SerializedName("WINNING_NUMBER_6") val winningNumber6: Int,
+                                             @SerializedName("PRIZE") val prize: Int, @SerializedName("PARTICIPATING_TIME") val participatingTime: String, @SerializedName("WINNING_TIME") val winningTime: String)
+
+    data class PointHistoryResponse(@SerializedName("isSuccess") val isSuccess: Boolean, @SerializedName("errorMessage") val errorMessage: String, @SerializedName("results") val detailsOfPointHistory: ArrayList<DetailsOfPointHistory>)
+    data class DetailsOfPointHistory(@SerializedName("SAVING_TIME") val savingTime: String, @SerializedName("SCORE_TYPE") val scoreType: Int, @SerializedName("SCORE") val score: Int)
+
     data class LottoResponse(@SerializedName("isSuccess") val isSuccess: Boolean, @SerializedName("errorMessage") val errorMessage: String, @SerializedName("results") val detailsOfLotto: ArrayList<DetailsOfLotto>)
     data class DetailsOfLotto(@SerializedName("WINNING_DATE") val winningDate: String, @SerializedName("WINNING_NUMBER_1") val winningNumber1: Int,
                               @SerializedName("WINNING_NUMBER_2") val winningNumber2: Int, @SerializedName("WINNING_NUMBER_3") val winningNumber3: Int,

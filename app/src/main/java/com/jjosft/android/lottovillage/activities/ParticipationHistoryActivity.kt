@@ -4,10 +4,17 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.jjosft.android.lottovillage.R
 import com.jjosft.android.lottovillage.adapters.ParticipationHistoryAdapter
 import com.jjosft.android.lottovillage.base.BaseActivity
+import com.jjosft.android.lottovillage.base.BaseApplication
+import com.jjosft.android.lottovillage.model.Model
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_participation_history.*
 import kotlinx.android.synthetic.main.content_participation_history.*
 
@@ -32,7 +39,7 @@ class ParticipationHistoryActivity : BaseActivity() {
         participation_history_spinner_day.adapter = dayAdapter
         participation_history_spinner_day.setSelection(0)
 
-        retrieveParticipationHistory()
+        retrieveParticipationHistory(participation_history_spinner_year.selectedItem.toString() + participation_history_spinner_month.selectedItem.toString() + participation_history_spinner_day.selectedItem.toString())
     }
 
     override fun onStop() {
@@ -42,13 +49,43 @@ class ParticipationHistoryActivity : BaseActivity() {
 
     fun customOnClick(view: View) {
         when (view.id) {
-            R.id.participation_history_button_retrieve -> {retrieveParticipationHistory()}
+            R.id.participation_history_button_retrieve -> {
+                retrieveParticipationHistory(participation_history_spinner_year.selectedItem.toString() + participation_history_spinner_month.selectedItem.toString() + participation_history_spinner_day.selectedItem.toString())
+            }
         }
     }
 
-    private fun retrieveParticipationHistory() {
-        val participationHistoryAdapter: ParticipationHistoryAdapter = ParticipationHistoryAdapter()
-        participation_history_recycler_view.layoutManager = LinearLayoutManager(applicationContext)
-        participation_history_recycler_view.adapter = participationHistoryAdapter
+    private fun retrieveParticipationHistory(eventDate: String) {
+        BaseApplication.getInstance().getRetrofitMethod().getDetailsOfOneDayParticipation(eventDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<Model.ParticipationHistoryResponse> {
+                    override fun onSubscribe(d: Disposable) {
+                        mCompositeDisposable.add(d)
+                        progressOn("로또 참여 내역을 불러오는 중 입니다")
+                    }
+
+                    override fun onNext(t: Model.ParticipationHistoryResponse) {
+                        if (t.isSuccess) {
+                            val participationHistoryAdapter = ParticipationHistoryAdapter(applicationContext, t.detailsOfParticipationHistory)
+                            participation_history_recycler_view.layoutManager = LinearLayoutManager(applicationContext)
+                            participation_history_recycler_view.adapter = participationHistoryAdapter
+                        } else {
+                            Toast.makeText(applicationContext, t.errorMessage, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Toast.makeText(applicationContext, "실패 ${e.message}", Toast.LENGTH_SHORT).show()
+                        progressOff()
+                        mCompositeDisposable.clear()
+                    }
+
+                    override fun onComplete() {
+                        progressOff()
+                        mCompositeDisposable.clear()
+                    }
+
+                })
     }
 }
